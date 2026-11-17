@@ -295,33 +295,30 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
   }
 
   /// Steps ticked on the widgets, saved as if ticked here (with the
-  /// celebration when one finishes a quest). Each line leaves the queue
-  /// only once saved; if saving fails the rest wait for the next try.
+  /// celebration when one finishes a quest), also after midnight. Each is
+  /// marked saved only once it is; if saving fails the rest wait for the
+  /// next try.
   Future<void> _applyWidgetTicks() async {
     if (_applyingTicks) return;
     if (ref.read(questsProvider).value == null) return;
     _applyingTicks = true;
     try {
       final widgets = ref.read(questsWidgetsProvider);
-      final lines = await widgets.pendingLines();
-      if (lines.isEmpty) return;
+      final ticks = await widgets.pending();
+      if (ticks.isEmpty) return;
       final repo = ref.read(questsRepositoryProvider);
-      final day = ref.read(todayProvider);
-      for (final line in lines) {
-        final tick = WidgetTick.parse(line);
-        if (tick != null) {
-          // The stored quest, not the screen's copy: an earlier tick in this
-          // batch may already have changed it.
-          final quest = (await repo.allQuests())
-              .where((q) => q.id == tick.questId)
-              .firstOrNull;
-          final updated = quest == null ? null : tick.applyTo(quest, day);
-          if (updated != null) {
-            if (!mounted) return;
-            await saveProgress(context, ref, updated);
-          }
+      for (final tick in ticks) {
+        // The stored quest, not the screen's copy: an earlier tick in this
+        // batch may already have changed it.
+        final quest = (await repo.allQuests())
+            .where((q) => q.id == tick.questId)
+            .firstOrNull;
+        final updated = quest == null ? null : tick.applyTo(quest);
+        if (updated != null) {
+          if (!mounted) return;
+          await saveProgress(context, ref, updated);
         }
-        await widgets.acknowledge(line);
+        await widgets.acknowledge(tick);
       }
     } finally {
       _applyingTicks = false;

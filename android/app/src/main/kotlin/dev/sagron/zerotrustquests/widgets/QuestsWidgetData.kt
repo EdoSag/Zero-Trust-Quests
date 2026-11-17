@@ -17,6 +17,7 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -37,13 +38,20 @@ import kotlin.math.sqrt
  *
  * A step ticked on a widget is marked done here at once (and the quest's
  * XP and gold added when that finishes it), and queued under
- * `quests_widget_pending` as `<quest id>|<step index>` for the app, which
- * saves it the next time it is open and unlocked.
+ * `quests_widget_pending` as `<number>|<quest id>|<step index>` for the app,
+ * which saves it the next time it is open and unlocked and then records the
+ * number under `quests_widget_ack`.
  */
 object QuestsWidgetData {
     const val DATA_KEY = "quests_widget_data"
     const val SIGNED_OUT_KEY = "quests_widget_signed_out"
     const val PENDING_KEY = "quests_widget_pending"
+
+    /** The last tick number given out (as text). */
+    const val SEQ_KEY = "quests_widget_seq"
+
+    /** The last tick number the app saved (as text); written by the app only. */
+    const val ACK_KEY = "quests_widget_ack"
     private const val ACTION_MIDNIGHT = "dev.sagron.zerotrustquests.widgets.MIDNIGHT"
 
     data class Step(val text: String, val done: Boolean)
@@ -178,19 +186,30 @@ object QuestsWidgetData {
         step.put("done", true)
         val finished = (0 until steps.length()).all { steps.optJSONObject(it)?.optBoolean("done") == true }
         if (finished) {
-            json.put("xp", json.optInt("xp") + found.optInt("xp"))
-            json.put("gold", json.optInt("gold") + found.optInt("gold"))
             // The first quest done today adds today to the streak.
             if (!json.optBoolean("todayDone")) {
                 json.put("todayDone", true)
                 json.put("streak", json.optInt("streak") + 1)
             }
+            // Streak bonus, as lib/engine/hero.dart: 5% per day in a row
+            // before today, up to 50%.
+            val xp = found.optInt("xp")
+            val bonus = floor(xp * min(json.optInt("streak") - 1, 10).coerceAtLeast(0) * 0.05).toInt()
+            json.put("xp", json.optInt("xp") + xp + bonus)
+            json.put("gold", json.optInt("gold") + found.optInt("gold"))
         }
-        val line = "$questId|$index"
-        val queue = prefs.getString(PENDING_KEY, null).orEmpty()
+        // The queue has one writer, this receiver; the app only records the
+        // last tick it saved (ACK_KEY), and saved lines are dropped here.
+        val acked = prefs.getString(ACK_KEY, null)?.toLongOrNull() ?: 0L
+        val seq = (prefs.getString(SEQ_KEY, null)?.toLongOrNull() ?: 0L) + 1
+        val kept = prefs.getString(PENDING_KEY, null).orEmpty().split('\n').filter { line ->
+            val n = line.substringBefore('|').toLongOrNull()
+            n != null && n > acked
+        }
         prefs.edit()
             .putString(DATA_KEY, json.toString())
-            .putString(PENDING_KEY, if (queue.isEmpty()) line else "$queue\n$line")
+            .putString(SEQ_KEY, seq.toString())
+            .putString(PENDING_KEY, (kept + "$seq|$questId|$index").joinToString("\n"))
             .apply()
         updateAll(context)
     }

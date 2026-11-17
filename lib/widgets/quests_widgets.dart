@@ -89,28 +89,32 @@ abstract final class QuestsWidgetContent {
 /// A step ticked on a widget, waiting for the unlocked app.
 @immutable
 class WidgetTick {
-  const WidgetTick(this.questId, this.step);
+  const WidgetTick(this.seq, this.questId, this.step);
 
+  /// The widget's running number for this tick; the app records the last
+  /// one it saved, so the widget can drop it from its queue.
+  final int seq;
   final String questId;
   final int step;
 
-  /// One line, as `QuestsWidgetData.kt` writes it: `<quest id>|<step>`.
-  /// Null when unreadable.
+  /// One line, as `QuestsWidgetData.kt` writes it:
+  /// `<number>|<quest id>|<step>`. Null when unreadable.
   static WidgetTick? parse(String line) {
-    final cut = line.lastIndexOf('|');
-    if (cut <= 0) return null;
-    final step = int.tryParse(line.substring(cut + 1).trim());
-    if (step == null || step < 0) return null;
-    return WidgetTick(line.substring(0, cut).trim(), step);
+    final first = line.indexOf('|');
+    final last = line.lastIndexOf('|');
+    if (first <= 0 || last <= first + 1) return null;
+    final seq = int.tryParse(line.substring(0, first).trim());
+    final step = int.tryParse(line.substring(last + 1).trim());
+    if (seq == null || step == null || step < 0) return null;
+    return WidgetTick(seq, line.substring(first + 1, last).trim(), step);
   }
 
   /// [quest] with this step done, or null when there is nothing to do: not
-  /// today's daily quest, declined, no such step, or already done (the
-  /// app or Health Connect got there first).
-  Quest? applyTo(Quest quest, String today) {
-    if (quest.id != questId || !quest.isDaily || quest.day != today) {
-      return null;
-    }
+  /// a daily quest, declined, no such step, or already done (the app or
+  /// Health Connect got there first). The widget only ticks the day's own
+  /// quests, so a tick saved after midnight still counts for its day.
+  Quest? applyTo(Quest quest) {
+    if (quest.id != questId || !quest.isDaily) return null;
     if (quest.declined != null || step >= quest.steps.length) return null;
     final s = quest.steps[step];
     if (s.done) return null;
@@ -139,6 +143,8 @@ class QuestsWidgets {
   static const _dataKey = 'quests_widget_data';
   static const _signedOutKey = 'quests_widget_signed_out';
   static const _queueKey = 'quests_widget_pending';
+  static const _seqKey = 'quests_widget_seq';
+  static const _ackKey = 'quests_widget_ack';
 
   /// Shows [content] ([QuestsWidgetContent.build]) with [texts].
   Future<void> publish(
@@ -162,12 +168,17 @@ class QuestsWidgets {
   }
 
   /// Signed out: a lock on every widget, and nothing of the account left.
+  /// Ticks still queued are marked as handled, so they never reach the
+  /// next account.
   Future<void> signedOut() async {
     if (!isSupported) return;
     try {
       await HomeWidget.saveWidgetData<bool>(_signedOutKey, true);
       await HomeWidget.saveWidgetData<String>(_dataKey, null);
-      await HomeWidget.saveWidgetData<String>(_queueKey, null);
+      final seq = await HomeWidget.getWidgetData<String>(_seqKey);
+      if (seq != null) {
+        await HomeWidget.saveWidgetData<String>(_ackKey, seq);
+      }
       await _redraw();
     } on Object catch (e) {
       debugPrint('Quests widgets not updated: $e');
@@ -180,35 +191,31 @@ class QuestsWidgets {
     }
   }
 
-  /// Ticks made on the widgets and not yet saved, oldest first, one raw line
-  /// each (see [WidgetTick.parse]). They stay queued until [acknowledge]d,
-  /// so a tick is not lost if saving it fails.
-  Future<List<String>> pendingLines() async {
+  /// Ticks made on the widgets and not yet saved, oldest first. Each stays
+  /// queued until [acknowledge]d, so a tick is not lost if saving it fails.
+  ///
+  /// Only the widget writes the queue; the app writes only the number of
+  /// the last tick it saved, so a tick made while the app reads is never
+  /// overwritten.
+  Future<List<WidgetTick>> pending() async {
     if (!isSupported) return const [];
     try {
       final queue = await HomeWidget.getWidgetData<String>(_queueKey);
+      final acked =
+          int.tryParse(await HomeWidget.getWidgetData<String>(_ackKey) ?? '') ??
+          0;
       return [
         for (final line in (queue ?? '').split('\n'))
-          if (line.trim().isNotEmpty) line.trim(),
-      ];
+          if (WidgetTick.parse(line) case final t? when t.seq > acked) t,
+      ]..sort((a, b) => a.seq.compareTo(b.seq));
     } on Object {
       return const [];
     }
   }
 
-  /// Removes one line [pendingLines] gave, once saved. Ticks the widgets
-  /// queued meanwhile stay.
-  Future<void> acknowledge(String line) async {
+  /// Records [tick] and every one before it as saved.
+  Future<void> acknowledge(WidgetTick tick) async {
     if (!isSupported) return;
-    final queue = await HomeWidget.getWidgetData<String>(_queueKey) ?? '';
-    final lines = [
-      for (final l in queue.split('\n'))
-        if (l.trim().isNotEmpty) l.trim(),
-    ];
-    lines.remove(line);
-    await HomeWidget.saveWidgetData<String>(
-      _queueKey,
-      lines.isEmpty ? null : lines.join('\n'),
-    );
+    await HomeWidget.saveWidgetData<String>(_ackKey, '${tick.seq}');
   }
 }

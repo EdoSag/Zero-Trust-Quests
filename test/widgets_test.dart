@@ -128,43 +128,43 @@ void main() {
 
   group('ticks from the home screen', () {
     test('parse', () {
-      final t = WidgetTick.parse('daily-g1-2026-11-17-0|1')!;
+      final t = WidgetTick.parse('7|daily-g1-2026-11-17-0|1')!;
+      expect(t.seq, 7);
       expect(t.questId, 'daily-g1-2026-11-17-0');
       expect(t.step, 1);
       expect(WidgetTick.parse('nonsense'), isNull);
-      expect(WidgetTick.parse('id|x'), isNull);
-      expect(WidgetTick.parse('|1'), isNull);
+      expect(WidgetTick.parse('id|1'), isNull);
+      expect(WidgetTick.parse('x|id|1'), isNull);
+      expect(WidgetTick.parse('3|id|x'), isNull);
+      expect(WidgetTick.parse('3||1'), isNull);
     });
 
     test('completes the step, whatever its amount', () {
       final q = const WidgetTick(
+        1,
         'daily-g1-2026-11-17-0',
         1,
-      ).applyTo(fitQuest, today)!;
+      ).applyTo(fitQuest)!;
       expect(q.steps[1].done, true);
       expect(q.steps[1].progress, 1);
       expect(q.steps[0], fitQuest.steps[0]);
+      // Saved after midnight, it still counts for its own day.
+      expect(q.day, today);
     });
 
     test('does nothing when there is nothing to do', () {
-      const tick = WidgetTick('daily-g1-2026-11-17-0', 0);
-      // Already done.
-      expect(tick.applyTo(fitQuest, today), isNull);
-      // Yesterday's quest, another quest, a missing step, a declined quest.
+      // Already done, another quest, a missing step, a declined quest.
       expect(
-        const WidgetTick(
-          'daily-g1-2026-11-17-0',
-          1,
-        ).applyTo(fitQuest, '2026-11-18'),
+        const WidgetTick(1, 'daily-g1-2026-11-17-0', 0).applyTo(fitQuest),
         isNull,
       );
-      expect(const WidgetTick('other', 1).applyTo(fitQuest, today), isNull);
+      expect(const WidgetTick(1, 'other', 1).applyTo(fitQuest), isNull);
       expect(
-        const WidgetTick('daily-g1-2026-11-17-0', 5).applyTo(fitQuest, today),
+        const WidgetTick(1, 'daily-g1-2026-11-17-0', 5).applyTo(fitQuest),
         isNull,
       );
       expect(
-        const WidgetTick('daily-g2-2026-11-17-0', 0).applyTo(calmQuest, today),
+        const WidgetTick(1, 'daily-g2-2026-11-17-0', 0).applyTo(calmQuest),
         isNull,
       );
     });
