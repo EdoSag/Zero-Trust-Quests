@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home screen widgets. Until the app has run, these are what the widgets show; after that the app writes its own texts in the language picked in Settings. -->
+<resources>
+    <string name="widget_today_label">Today\'s quest</string>
+    <string name="widget_today_description">Today\'s quest steps, ticked off right from the home screen</string>
+    <string name="widget_hero_label">Hero</string>
+    <string name="widget_hero_description">Your level, title, XP and gold</string>
+    <string name="widget_streak_label">Streak</string>
+    <string name="widget_streak_description">Days in a row, with a warning while today isn\'t done yet</string>
+    <string name="widget_next_label">Next step</string>
+    <string name="widget_next_description">The next step of today\'s quests, changing as you finish them</string>
+    <string name="widget_today_title">Today\'s quest</string>
+    <string name="widget_steps_done">%1$d of %2$d steps done</string>
+    <string name="widget_all_done">All done for today!</string>
+    <string name="widget_signed_out">Signed out</string>
+    <string name="widget_open_to_see">Open ZT Quests to see your quests</string>
+    <string name="widget_new_day">New quests are ready. Open ZT Quests.</string>
+    <string name="widget_no_quests">No quests today. Add a goal in ZT Quests.</string>
+    <string name="widget_complete_step">Complete this step</string>
+    <string name="widget_level">Level %d</string>
+    <string name="widget_xp">%1$d / %2$d XP</string>
+    <string name="widget_gold">%d gold</string>
+    <string name="widget_streak">Streak</string>
+    <string name="widget_streak_warn">Do a quest today</string>
+    <string name="widget_streak_done">Done today</string>
+    <string name="widget_next_step">Next step</string>
+    <string name="widget_steps_left">Steps left: %d</string>
+    <string name="widget_open_app">Open ZT Quests</string>
+    <string name="widget_title_novice">Novice</string>
+    <string name="widget_preview_step_0">25 push-ups</string>
+    <string name="widget_preview_step_1">Run 1 km</string>
+    <string name="widget_preview_step_2">Plank for 45 seconds</string>
+</resources>

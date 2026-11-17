@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The streak widget's surface while today has no completed quest yet:
+     the kit's rounded surface with a warm warning tint. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/zt_widget_background"/>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/widget_warn_tint"/>
+            <stroke android:width="2dp" android:color="@color/widget_warn"/>
+            <corners android:radius="@dimen/zt_widget_radius"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1680,6 +1680,120 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Today\'s quests are ready. Keep your streak going!'**
   String get reminderBody;
+
+  /// No description provided for @widgetDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Show details on the home screen'**
+  String get widgetDetails;
+
+  /// No description provided for @widgetDetailsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: the widgets show your level, gold, streak and how many steps are left. On: the steps of today\'s quests and your goal names are stored unencrypted on this phone for the home screen.'**
+  String get widgetDetailsBody;
+
+  /// No description provided for @widgetTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s quest'**
+  String get widgetTodayTitle;
+
+  /// No description provided for @widgetStepsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} steps done'**
+  String widgetStepsDone(String done, String total);
+
+  /// No description provided for @widgetAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done for today!'**
+  String get widgetAllDone;
+
+  /// No description provided for @widgetSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out'**
+  String get widgetSignedOut;
+
+  /// No description provided for @widgetOpenToSee.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ZT Quests to see your quests'**
+  String get widgetOpenToSee;
+
+  /// No description provided for @widgetNewDay.
+  ///
+  /// In en, this message translates to:
+  /// **'New quests are ready. Open ZT Quests.'**
+  String get widgetNewDay;
+
+  /// No description provided for @widgetNoQuests.
+  ///
+  /// In en, this message translates to:
+  /// **'No quests today. Add a goal in ZT Quests.'**
+  String get widgetNoQuests;
+
+  /// No description provided for @widgetCompleteStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete this step'**
+  String get widgetCompleteStep;
+
+  /// No description provided for @widgetLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String widgetLevel(String level);
+
+  /// No description provided for @widgetXp.
+  ///
+  /// In en, this message translates to:
+  /// **'{xp} / {need} XP'**
+  String widgetXp(String xp, String need);
+
+  /// No description provided for @widgetGold.
+  ///
+  /// In en, this message translates to:
+  /// **'{gold} gold'**
+  String widgetGold(String gold);
+
+  /// No description provided for @widgetStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get widgetStreak;
+
+  /// No description provided for @widgetStreakWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'Do a quest today'**
+  String get widgetStreakWarn;
+
+  /// No description provided for @widgetStreakDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done today'**
+  String get widgetStreakDone;
+
+  /// No description provided for @widgetNextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Next step'**
+  String get widgetNextStep;
+
+  /// No description provided for @widgetStepsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps left: {count}'**
+  String widgetStepsLeft(String count);
+
+  /// No description provided for @widgetOpenApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ZT Quests'**
+  String get widgetOpenApp;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

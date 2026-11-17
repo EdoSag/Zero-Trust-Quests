@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 3x3 by default: the steps of today's quests. Smaller shows fewer rows; at one cell high just the title and count. See TodayQuestWidgetProvider. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="180dp"
+    android:minHeight="180dp"
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="40dp"
+    android:maxResizeWidth="600dp"
+    android:maxResizeHeight="500dp"
+    android:targetCellWidth="3"
+    android:targetCellHeight="3"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_today"
+    android:previewLayout="@layout/widget_today"
+    android:description="@string/widget_today_description"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen">
+</appwidget-provider>

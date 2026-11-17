@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:zero_trust_core/zero_trust_core.dart';
 
 import '../data/quests_store.dart';
 import '../engine/engine.dart';
+import '../engine/hero.dart';
 import '../health/health_source.dart';
 import '../health/health_sync.dart';
 import '../l10n/l10n.dart';
@@ -13,6 +15,8 @@ import '../model/days.dart';
 import '../model/quest.dart';
 import '../notify/daily_reminder.dart';
 import '../ui/home_page.dart';
+import '../ui/quest_actions.dart';
+import '../widgets/quests_widgets.dart';
 import 'auth_providers.dart';
 import 'quests_settings.dart';
 
@@ -100,6 +104,8 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
             .read(dailyReminderProvider)
             .schedule(null, _reminderTexts(currentL10n))
             .ignore();
+        // So do the widgets' content and the ticks queued on them.
+        ref.read(questsWidgetsProvider).signedOut().ignore();
         setState(() => _signingIn = true);
       }
     });
@@ -148,8 +154,9 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
 }
 
 /// Quests once unlocked: runs sync, makes today's quests (again at
-/// midnight), fills steps from Health Connect when that is on, and keeps the
-/// daily reminder set.
+/// midnight), fills steps from Health Connect when that is on, keeps the
+/// daily reminder set, saves steps ticked on the home screen widgets and
+/// keeps the widgets up to date.
 class QuestsHome extends ConsumerStatefulWidget {
   const QuestsHome({super.key});
 
@@ -163,6 +170,9 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
   Timer? _healthTimer;
   bool _readingHealth = false;
   String? _reminderShown;
+  Timer? _widgetsSoon;
+  String? _widgetsShown;
+  bool _applyingTicks = false;
 
   @override
   void initState() {
@@ -175,6 +185,7 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _plan();
       _fillHealth();
+      _syncWidgets();
     });
   }
 
@@ -183,6 +194,7 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
     WidgetsBinding.instance.removeObserver(this);
     _planSoon?.cancel();
     _healthTimer?.cancel();
+    _widgetsSoon?.cancel();
     super.dispose();
   }
 
@@ -192,6 +204,7 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
       ref.read(todayProvider.notifier).refresh();
       _plan();
       _fillHealth();
+      _syncWidgets();
     }
   }
 
@@ -266,20 +279,101 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
     }
   }
 
+  /// Saves the ticks made on the widgets, then shows the widgets the
+  /// current state. Debounced, so a burst of changes writes once.
+  void _syncWidgets() {
+    _widgetsSoon?.cancel();
+    _widgetsSoon = Timer(const Duration(milliseconds: 400), () async {
+      if (!mounted) return;
+      try {
+        await _applyWidgetTicks();
+        await _publishWidgets();
+      } on Object {
+        // The widgets are extra; the app itself still works.
+      }
+    });
+  }
+
+  /// Steps ticked on the widgets, saved as if ticked here (with the
+  /// celebration when one finishes a quest), also after midnight. Each is
+  /// marked saved only once it is; if saving fails the rest wait for the
+  /// next try.
+  Future<void> _applyWidgetTicks() async {
+    if (_applyingTicks) return;
+    if (ref.read(questsProvider).value == null) return;
+    _applyingTicks = true;
+    try {
+      final widgets = ref.read(questsWidgetsProvider);
+      final ticks = await widgets.pending();
+      if (ticks.isEmpty) return;
+      final repo = ref.read(questsRepositoryProvider);
+      for (final tick in ticks) {
+        // The stored quest, not the screen's copy: an earlier tick in this
+        // batch may already have changed it.
+        final quest = (await repo.allQuests())
+            .where((q) => q.id == tick.questId)
+            .firstOrNull;
+        final updated = quest == null ? null : tick.applyTo(quest);
+        if (updated != null) {
+          if (!mounted) return;
+          await saveProgress(context, ref, updated);
+        }
+        await widgets.acknowledge(tick);
+      }
+    } finally {
+      _applyingTicks = false;
+    }
+  }
+
+  Future<void> _publishWidgets() async {
+    final goals = ref.read(goalsProvider).value;
+    final quests = ref.read(questsProvider).value;
+    final purchases = ref.read(purchasesProvider).value;
+    if (goals == null || quests == null || purchases == null) return;
+    final day = ref.read(todayProvider);
+    final l = currentL10n;
+    final content = QuestsWidgetContent.build(
+      goals: goals,
+      quests: quests,
+      stats: HeroStats.compute(quests, purchases, day),
+      day: day,
+      details: ref.read(questsSettingsProvider).widgetDetails,
+      l: l,
+    );
+    // The widgets' texts are in the app's language: republish when it
+    // changes.
+    final key = '${jsonEncode(content)}|${l.localeName}';
+    if (key == _widgetsShown) return;
+    _widgetsShown = key;
+    await ref
+        .read(questsWidgetsProvider)
+        .publish(content, QuestsWidgetContent.texts(l));
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.watch(ztSyncControllerProvider);
-    ref.listen(goalsProvider, (_, _) => _plan());
+    ref.listen(goalsProvider, (_, _) {
+      _plan();
+      _syncWidgets();
+    });
     ref.listen(questsProvider, (_, _) {
       _plan();
       _syncReminder();
+      _syncWidgets();
     });
+    ref.listen(purchasesProvider, (_, _) => _syncWidgets());
     ref.listen(todayProvider, (_, _) {
       _plan();
       _syncReminder();
+      _syncWidgets();
     });
+    // The widget texts follow a language change; the debounce lets the new
+    // language load first.
+    ref.listen(ztLanguageProvider, (_, _) => _syncWidgets());
     ref.listen(questsSettingsProvider, (prev, next) {
       _syncReminder();
+      _syncWidgets();
       if (next.useHealth && prev?.useHealth != true) _fillHealth();
     });
     return const HomePage();

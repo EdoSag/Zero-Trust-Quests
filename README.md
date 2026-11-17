@@ -34,6 +34,12 @@ end-to-end encrypted like them.
   minutes, sleep and water on its own, from ZT Fitness (with Health write-back
   on), a watch or other apps. Read on the phone only; never lowers what you
   logged by hand.
+- **Home screen widgets** (Android): today's quest (tick steps right there),
+  hero card (level, title, XP, gold), streak flame (amber until a quest is
+  done today) and next step (1x1, with a tick when wider; offered on the lock
+  screen where the phone supports lock screen widgets). By default they show
+  only numbers; step texts and goal names need "Show details on the home
+  screen" in Settings. A tick is saved by the app the next time it opens.
 - **Daily reminder** (optional, Settings): "Your quests are waiting" at a time
   you pick. It never names a goal, and it skips days you have already finished.
 

@@ -38,6 +38,8 @@ dependencies:
   health: ^13.3.2
   # The daily "your quests are ready" reminder, scheduled on the phone.
   flutter_local_notifications: ^23.0.0
+  # Home screen widgets (Android).
+  home_widget: ^0.9.4
   timezone: ^0.11.2
 
 dev_dependencies:
