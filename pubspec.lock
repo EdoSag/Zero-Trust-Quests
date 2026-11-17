@@ -1112,8 +1112,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/zt_release_checks"
-      ref: "2b9d3fc2b97f32352495e864c4a7d67fa4d2c056"
-      resolved-ref: "2b9d3fc2b97f32352495e864c4a7d67fa4d2c056"
+      ref: f004df1e86f9ab7dafabf2f5838d5c997002a476
+      resolved-ref: f004df1e86f9ab7dafabf2f5838d5c997002a476
       url: "https://github.com/EdoSag/Zero-Trust-Core.git"
     source: git
     version: "0.1.0"
