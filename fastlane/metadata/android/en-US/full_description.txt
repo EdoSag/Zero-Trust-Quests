@@ -1,0 +1,25 @@
+Pick a goal (get fitter, be more productive, eat healthier, sleep better, learn, feel calmer, or your own) and answer a few questions. Zero-Trust Quests turns it into a daily quest sized for you, makes it harder as you get stronger and easier when life gets busy, and pays you in XP and gold. Everything stays end-to-end encrypted.
+
+WHAT IT DOES
+• Goals for fitness, productivity, nutrition, sleep, learning and calm, or your own goal with your own habits.
+• A daily quest for each goal, like "25 push-ups, run 1 km, plank for 45 seconds", sized from your answers.
+• Difficulty that adapts: finished quests make the next ones harder, missed ones make them easier.
+• Decline a quest as too hard, too easy, "something else" or "not today": the first decline of the day is free.
+• Epic quests: bigger, one-time challenges with a deadline, like a long run or a 7-day streak. Or write your own.
+• XP, levels and titles, gold, and a daily streak with streak freezes.
+• A shop for emblems and colours, some unlocked free as you level up.
+• Log progress with a tap, or fill steps, distance, workouts, sleep and water from Health Connect (ZT Fitness, your watch or other apps).
+• A daily reminder that never shows your goals on the lock screen.
+
+WHY ZERO-TRUST
+• End-to-end encrypted: everything is encrypted on your phone before it syncs. We can't read it, and neither can anyone who breaks into the server.
+• One private account for every Zero-Trust app, unlocked with your fingerprint or face.
+• Works offline and syncs across your devices when you're back online.
+• No ads, no trackers, no analytics, no data sold. Ever.
+• Open source (AGPL-3.0), so anyone can check what the app does.
+• English and Hebrew, with full right-to-left support.
+
+Part of the Zero-Trust suite: Notes, Tasks, Calendar, Contacts, Phone, Fitness, Meds, Time, Browser and Quests. One account opens them all.
+
+Privacy policy: https://zerotrust.bz/privacy/
+Support: support@zerotrust.bz
