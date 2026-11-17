@@ -1,0 +1,651 @@
+{
+  "@@locale": "en",
+  "appTitle": "ZT Quests",
+  "actPushups": "{n} push-ups",
+  "@actPushups": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actSquats": "{n} squats",
+  "@actSquats": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actSitups": "{n} sit-ups",
+  "@actSitups": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actLunges": "{n} lunges",
+  "@actLunges": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actJumpingJacks": "{n} jumping jacks",
+  "@actJumpingJacks": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actBurpees": "{n} burpees",
+  "@actBurpees": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actPlank": "Plank for {n} seconds",
+  "@actPlank": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actRun": "Run {n} km",
+  "@actRun": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actWalkSteps": "Walk {n} steps",
+  "@actWalkSteps": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actWorkout": "Work out for {n} minutes",
+  "@actWorkout": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actStretch": "Stretch for {n} minutes",
+  "@actStretch": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actDeepWork": "{n} minutes of focused work",
+  "@actDeepWork": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actPomodoros": "{n} pomodoros (25-minute focus blocks)",
+  "@actPomodoros": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actTasksDone": "Finish {n} tasks",
+  "@actTasksDone": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actPlanTomorrow": "Plan tomorrow before bed",
+  "actInboxZero": "Clear your inbox",
+  "actNoPhoneMorning": "No phone for the first hour of the day",
+  "actTidyDesk": "Tidy your desk",
+  "actWater": "Drink {n} glasses of water",
+  "@actWater": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actVeggies": "Eat {n} servings of vegetables",
+  "@actVeggies": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actFruit": "Eat {n} pieces of fruit",
+  "@actFruit": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actHomeMeal": "Cook a meal at home",
+  "actNoSugaryDrinks": "No sugary drinks today",
+  "actNoLateSnack": "No snacks after dinner",
+  "actProtein": "Protein in every meal",
+  "actSleepHours": "Sleep {n} hours",
+  "@actSleepHours": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actBedOnTime": "In bed by your bedtime",
+  "actNoScreensBed": "No screens {n} minutes before bed",
+  "@actNoScreensBed": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actMorningLight": "{n} minutes of daylight in the morning",
+  "@actMorningLight": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actNoCaffeineLate": "No caffeine after 2 pm",
+  "actReadPages": "Read {n} pages",
+  "@actReadPages": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actStudy": "Study for {n} minutes",
+  "@actStudy": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actNewWords": "Learn {n} new words",
+  "@actNewWords": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actLesson": "Take one lesson or watch one lecture",
+  "actTeachBack": "Explain what you learned to someone",
+  "actMeditate": "Meditate for {n} minutes",
+  "@actMeditate": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actGratitude": "Write down {n} things you are grateful for",
+  "@actGratitude": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actWalkOutside": "Walk outside for {n} minutes",
+  "@actWalkOutside": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actJournal": "Write in your journal",
+  "actBreathing": "{n} minutes of slow breathing",
+  "@actBreathing": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "actStreak": "Complete your daily quest on {n} days",
+  "@actStreak": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "customStep": "{label}: {amount} {unit}",
+  "@customStep": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "progressOf": "{done} of {target}",
+  "@progressOf": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "catFitness": "Get fitter",
+  "catFitnessBlurb": "Strength, running, steps and workouts",
+  "catProductivity": "Be more productive",
+  "catProductivityBlurb": "Focus, getting things done, planning",
+  "catNutrition": "Eat healthier",
+  "catNutritionBlurb": "Water, vegetables, fewer sweets",
+  "catSleep": "Sleep better",
+  "catSleepBlurb": "Enough sleep, a steady bedtime, calmer evenings",
+  "catLearning": "Learn something",
+  "catLearningBlurb": "Reading, a language, a new skill",
+  "catMindfulness": "Feel calmer",
+  "catMindfulnessBlurb": "Meditation, gratitude, time outside",
+  "catCustom": "My own goal",
+  "catCustomBlurb": "Anything else: you choose the habits",
+  "qLevel": "Where are you starting from?",
+  "qTime": "How much time can you give it each day?",
+  "qPushups": "How many push-ups can you do in a row?",
+  "qRunning": "What is the longest you have run lately?",
+  "qFocus": "What do you want more of?",
+  "qFocusNow": "How long can you focus without a break?",
+  "qStruggle": "What gets in the way most?",
+  "qWaterNow": "How much water do you drink a day?",
+  "qVeggiesNow": "How many servings of vegetables a day?",
+  "qSleepNow": "How long do you usually sleep?",
+  "qReadNow": "How much do you read on a normal day?",
+  "qKind": "What are you learning?",
+  "qMeditateNow": "Do you meditate?",
+  "optBeginner": "Just starting",
+  "optSome": "Some experience",
+  "optExperienced": "Experienced",
+  "optMin10": "About 10 minutes",
+  "optMin20": "About 20 minutes",
+  "optMin40": "About 40 minutes",
+  "optMin60": "An hour or more",
+  "optP0": "Fewer than 5",
+  "optP10": "5 to 15",
+  "optP25": "15 to 30",
+  "optP40": "More than 30",
+  "optR0": "I don't run",
+  "optR2": "Up to 2 km",
+  "optR5": "2 to 5 km",
+  "optR10": "More than 5 km",
+  "optStrength": "Strength",
+  "optCardio": "Cardio and endurance",
+  "optMix": "A mix",
+  "optF15": "About 15 minutes",
+  "optF30": "About 30 minutes",
+  "optF60": "An hour or more",
+  "optProcrastination": "Putting things off",
+  "optDistraction": "Distractions and my phone",
+  "optPlanning": "No plan for the day",
+  "optW2": "1 to 3 glasses",
+  "optW5": "4 to 6 glasses",
+  "optW8": "7 or more",
+  "optV0": "Hardly any",
+  "optV2": "1 to 3",
+  "optV4": "4 or more",
+  "optSugar": "Sweets and sugary drinks",
+  "optSnacking": "Snacking",
+  "optCooking": "Not cooking at home",
+  "optS5": "Under 6 hours",
+  "optS6": "6 to 7 hours",
+  "optS7": "7 to 8 hours",
+  "optS8": "8 hours or more",
+  "optLateBed": "Going to bed late",
+  "optScreens": "Screens before bed",
+  "optMornings": "Hard mornings",
+  "optRead0": "Hardly at all",
+  "optRead10": "A few pages",
+  "optRead30": "A chapter or more",
+  "optLanguage": "A language",
+  "optSkill": "A skill or a course",
+  "optBooks": "Reading more books",
+  "optNever": "Never tried",
+  "optSometimes": "Sometimes",
+  "optDaily": "Most days",
+  "optStress": "Stress",
+  "optMood": "Low mood",
+  "optOutdoors": "Too much time indoors",
+  "titleNovice": "Novice",
+  "titleApprentice": "Apprentice",
+  "titleAdventurer": "Adventurer",
+  "titlePathfinder": "Pathfinder",
+  "titleVeteran": "Veteran",
+  "titleHero": "Hero",
+  "titleChampion": "Champion",
+  "titleMaster": "Master",
+  "titleLegend": "Legend",
+  "accept": "Accept",
+  "add": "Add",
+  "addRest": "+{n} (the rest)",
+  "@addRest": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "amountDone": "How much did you do?",
+  "bestSoFar": "Your best so far",
+  "setTotal": "Set as total",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "more": "More",
+  "next": "Next",
+  "settings": "Settings",
+  "notSet": "Not set",
+  "off": "Off",
+  "turnOff": "Turn off",
+  "onward": "Onward!",
+  "couldNotLoad": "Could not load your quests",
+  "tabToday": "Today",
+  "tabEpics": "Epics",
+  "tabGoals": "Goals",
+  "tabHero": "Hero",
+  "dailyQuest": "Daily quest",
+  "completed": "Completed",
+  "missed": "Missed",
+  "skippedToday": "Skipped today",
+  "difficultyValue": "difficulty {d}×",
+  "@difficultyValue": {
+    "placeholders": {
+      "d": {
+        "type": "String"
+      }
+    }
+  },
+  "daysLeft": "{n, plural, =1{Last day} other{{n} days left}}",
+  "@daysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "endedOn": "Ended {day}",
+  "@endedOn": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "xpAmount": "+{n} XP",
+  "@xpAmount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "goldAmount": "{n} gold",
+  "@goldAmount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "logProgress": "Log progress",
+  "fromHealthConnect": "Filled from Health Connect when it is on",
+  "questComplete": "Quest complete!",
+  "epicComplete": "Epic quest complete!",
+  "levelUp": "Level up! You reached level {n}",
+  "@levelUp": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "levelTitle": "Level {n} · {title}",
+  "@levelTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "levelShort": "Lvl {n}",
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "xpToNext": "{have} / {need} XP to level {next}",
+  "@xpToNext": {
+    "placeholders": {
+      "have": {
+        "type": "int"
+      },
+      "need": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      }
+    }
+  },
+  "streakDays": "{n, plural, =1{1-day streak} other{{n}-day streak}}",
+  "@streakDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "freezesHeld": "{n} streak {n, plural, =1{freeze} other{freezes}}",
+  "@freezesHeld": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "declineAction": "Decline quest",
+  "declineTitle": "Why decline it?",
+  "declineFree": "Your first decline today is free.",
+  "declineCosts": "You already declined one today: this one costs {n} gold.",
+  "@declineCosts": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "declineTooHard": "Too hard",
+  "declineTooHardHint": "Get an easier quest. Future quests get easier too.",
+  "declineTooEasy": "Too easy",
+  "declineTooEasyHint": "Get a harder quest. Future quests get harder too.",
+  "declineDifferent": "Something else",
+  "declineDifferentHint": "Same difficulty, different activities.",
+  "declineNotToday": "Not today",
+  "declineNotTodayHint": "Skip this goal today. Back tomorrow.",
+  "notEnoughGold": "Not enough gold yet. Complete quests to earn more.",
+  "noMoreSwaps": "No more swaps for this goal today.",
+  "epicStreakTitle": "Complete {n} daily quests within {days} days",
+  "@epicStreakTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "epicBestTitle": "In one day: {what}",
+  "@epicBestTitle": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "epicTotalTitle": "{what} in total, within {days} days",
+  "@epicTotalTitle": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "epicOffered": "New epic quest · {goal}",
+  "@epicOffered": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "epicAccepted": "Epic quest accepted. Your daily quests count towards it.",
+  "notNow": "Not now",
+  "epicsRunning": "In progress",
+  "epicsFinished": "Finished",
+  "noEpicsTitle": "No epic quests yet",
+  "noEpicsBody": "Complete a few daily quests and your goals will offer bigger challenges. You can also set your own.",
+  "ownEpicTitle": "Own epic quest",
+  "ownEpicBody": "A big goal with a deadline, like \"Run a half marathon\" or \"Read 3 books\". Log progress whenever you make some.",
+  "ownEpicName": "What is the quest?",
+  "ownEpicNameHint": "Read 3 books",
+  "ownEpicAmount": "Target",
+  "ownEpicUnit": "Unit",
+  "ownEpicUnitHint": "books",
+  "ownEpicGoal": "Goal it belongs to",
+  "ownEpicDays": "Time to finish",
+  "ownEpicCreate": "Start the quest",
+  "daysCount": "{n} days",
+  "@daysCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "firstGoalTitle": "What do you want to get better at?",
+  "firstGoalBody": "Pick a goal and answer a few questions. You get a daily quest sized for you, and it adapts as you go.",
+  "chooseGoal": "Choose a goal",
+  "newGoal": "New goal",
+  "editGoal": "Edit goal",
+  "whatGoal": "What is your goal?",
+  "whatGoalHint": "You can add more goals later.",
+  "startQuesting": "Start questing",
+  "goalName": "Name of the goal",
+  "goalNameHint": "Play the guitar",
+  "yourHabits": "Your habits",
+  "yourHabitsHint": "Quests are made from these. Add at least one.",
+  "addHabit": "Add a habit",
+  "editHabit": "Edit habit",
+  "habitName": "Habit",
+  "habitNameHint": "Practise guitar",
+  "habitAmount": "Amount (optional)",
+  "habitAmountHint": "Leave empty for a yes/no habit",
+  "habitUnit": "Unit",
+  "habitUnitHint": "minutes",
+  "yesNoHabit": "Yes / no",
+  "archivedGoals": "Archived",
+  "weekDone": "{done}/{made} this week",
+  "@weekDone": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "made": {
+        "type": "int"
+      }
+    }
+  },
+  "editAnswers": "Change answers",
+  "archiveGoal": "Archive",
+  "unarchiveGoal": "Bring back",
+  "deleteGoalTitle": "Delete this goal?",
+  "deleteGoalBody": "Its quests are deleted too, with the XP and gold they earned. To keep them, archive the goal instead.",
+  "statQuestsDone": "Quests done",
+  "statDifficulty": "Difficulty now",
+  "statSince": "Since",
+  "difficultyExplained": "Difficulty starts from your answers. Each completed quest raises it a little, quests left under half done lower it, and declining as too hard or too easy changes it right away.",
+  "statDailies": "Daily quests",
+  "statEpics": "Epic quests",
+  "statBestStreak": "Best streak",
+  "statTotalXp": "Total XP",
+  "heroName": "Hero name",
+  "shop": "Shop",
+  "shopHint": "Spend gold here. Some items unlock for free as you level up.",
+  "streakFreeze": "Streak freeze",
+  "streakFreezeHint": "Keeps your streak through one missed day. Hold up to {n}.",
+  "@streakFreezeHint": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "emblems": "Emblems",
+  "colors": "Colours",
+  "wear": "Use",
+  "wearing": "In use",
+  "buy": "Buy",
+  "buyTitle": "Buy this?",
+  "buyBody": "It costs {n} gold.",
+  "@buyBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "useHealth": "Use Health Connect",
+  "useHealthHint": "Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.",
+  "healthUnavailable": "Health Connect is not available on this phone.",
+  "healthRefused": "Health Connect access was not allowed.",
+  "dailyReminder": "Daily reminder",
+  "notificationsRefused": "Notifications are off for ZT Quests in the phone settings.",
+  "reminderChannel": "Daily quests",
+  "reminderTitle": "Your quests are waiting",
+  "reminderBody": "Today's quests are ready. Keep your streak going!"
+}
