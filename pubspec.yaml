@@ -1,0 +1,60 @@
+name: zerotrust_quests
+description: "Zero-Trust Quests: daily quests from your own goals, with XP, gold and levels. End-to-end encrypted."
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.9.0
+
+# Builds SQLite3MultipleCiphers instead of plain SQLite, so the core's local
+# store is encrypted as a whole file (see Zero-Trust-Core README, "Sync").
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  # Shared account, keys, sync, settings and look of every Zero-Trust app.
+  # Core main 0.12.0 (release merge, 2026-11-14). Switch to the v0.12.0 tag
+  # once it is pushed. Never add cryptography_flutter: it breaks the core's
+  # key derivation.
+  zero_trust_core:
+    git:
+      url: https://github.com/EdoSag/Zero-Trust-Core.git
+      path: packages/zero_trust_core
+      ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
+  flutter_riverpod: ^3.5.0
+  supabase_flutter: ^2.9.0
+  flutter_dotenv: ^6.0.1
+  intl: any
+  url_launcher: ^6.3.1
+  uuid: ^4.5.1
+  # Steps, distance, workouts, sleep and water from Health Connect (the same
+  # data ZT Fitness reads), read on the phone only, when turned on.
+  health: ^13.3.2
+  # The daily "your quests are ready" reminder, scheduled on the phone.
+  flutter_local_notifications: ^23.0.0
+  timezone: ^0.11.2
+
+dev_dependencies:
+  # Release checks every Zero-Trust app runs in CI (keys, sync, sign-in, app
+  # setup, database). Independent of zero_trust_core, so it may be newer.
+  # Core PR #52 (adds the `quests` app id); move to the Dev merge once in.
+  zt_release_checks:
+    git:
+      url: https://github.com/EdoSag/Zero-Trust-Core.git
+      path: packages/zt_release_checks
+      ref: 2b9d3fc2b97f32352495e864c4a7d67fa4d2c056
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - .env
