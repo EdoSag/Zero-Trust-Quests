@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Quests' own widget colours, next to the kit's zt_widget_* ones. -->
+<resources>
+    <!-- Streak flame once today has a completed quest. -->
+    <color name="widget_flame">#F97316</color>
+    <!-- Streak at risk: today has no completed quest yet. -->
+    <color name="widget_warn">#F59E0B</color>
+    <color name="widget_warn_tint">#24F59E0B</color>
+</resources>

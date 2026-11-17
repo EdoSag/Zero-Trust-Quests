@@ -86,6 +86,14 @@ class QuestsSettingsPage extends ConsumerWidget {
                 .setReminder(picked.hour * 60 + picked.minute);
           },
         ),
+        SwitchListTile(
+          secondary: const Icon(Icons.widgets_outlined),
+          title: Text(l.widgetDetails),
+          subtitle: Text(l.widgetDetailsBody),
+          value: settings.widgetDetails,
+          onChanged: (on) =>
+              ref.read(questsSettingsProvider.notifier).setWidgetDetails(on),
+        ),
       ],
     );
   }

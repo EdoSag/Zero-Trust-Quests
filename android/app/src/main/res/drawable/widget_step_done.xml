@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A done quest step: a filled accent circle with a tick, the same size
+     as the kit's empty tick circle (zt_widget_check_ring). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="20dp" android:height="20dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@color/zt_widget_accent"/>
+        </shape>
+    </item>
+    <item android:width="14dp" android:height="14dp" android:gravity="center"
+        android:drawable="@drawable/widget_check_white"/>
+</layer-list>

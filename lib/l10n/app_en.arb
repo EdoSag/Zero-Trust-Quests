@@ -647,5 +647,65 @@
   "notificationsRefused": "Notifications are off for ZT Quests in the phone settings.",
   "reminderChannel": "Daily quests",
   "reminderTitle": "Your quests are waiting",
-  "reminderBody": "Today's quests are ready. Keep your streak going!"
+  "reminderBody": "Today's quests are ready. Keep your streak going!",
+  "widgetDetails": "Show details on the home screen",
+  "widgetDetailsBody": "Off: the widgets show your level, gold, streak and how many steps are left. On: the steps of today's quests and your goal names are stored unencrypted on this phone for the home screen.",
+  "widgetTodayTitle": "Today's quest",
+  "widgetStepsDone": "{done} of {total} steps done",
+  "@widgetStepsDone": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetAllDone": "All done for today!",
+  "widgetSignedOut": "Signed out",
+  "widgetOpenToSee": "Open ZT Quests to see your quests",
+  "widgetNewDay": "New quests are ready. Open ZT Quests.",
+  "widgetNoQuests": "No quests today. Add a goal in ZT Quests.",
+  "widgetCompleteStep": "Complete this step",
+  "widgetLevel": "Level {level}",
+  "@widgetLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetXp": "{xp} / {need} XP",
+  "@widgetXp": {
+    "placeholders": {
+      "xp": {
+        "type": "String"
+      },
+      "need": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetGold": "{gold} gold",
+  "@widgetGold": {
+    "placeholders": {
+      "gold": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetStreak": "Streak",
+  "widgetStreakWarn": "Do a quest today",
+  "widgetStreakDone": "Done today",
+  "widgetNextStep": "Next step",
+  "widgetStepsLeft": "Steps left: {count}",
+  "@widgetStepsLeft": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetOpenApp": "Open ZT Quests"
 }

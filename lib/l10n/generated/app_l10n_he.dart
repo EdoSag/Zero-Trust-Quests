@@ -930,4 +930,72 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get reminderBody => 'המשימות של היום מוכנות. ממשיכים את הרצף!';
+
+  @override
+  String get widgetDetails => 'הצגת פרטים במסך הבית';
+
+  @override
+  String get widgetDetailsBody =>
+      'כבוי: הווידג\'טים מציגים את הרמה, הזהב, הרצף וכמה צעדים נותרו. מופעל: הצעדים של המשימות של היום ושמות היעדים נשמרים ללא הצפנה בטלפון הזה לטובת מסך הבית.';
+
+  @override
+  String get widgetTodayTitle => 'המשימה של היום';
+
+  @override
+  String widgetStepsDone(String done, String total) {
+    return '$done מתוך $total צעדים בוצעו';
+  }
+
+  @override
+  String get widgetAllDone => 'סיימת את כל המשימות להיום!';
+
+  @override
+  String get widgetSignedOut => 'מנותק';
+
+  @override
+  String get widgetOpenToSee => 'צריך לפתוח את ZT Quests כדי לראות את המשימות';
+
+  @override
+  String get widgetNewDay => 'משימות חדשות מחכות. צריך לפתוח את ZT Quests.';
+
+  @override
+  String get widgetNoQuests => 'אין משימות היום. אפשר להוסיף יעד ב-ZT Quests.';
+
+  @override
+  String get widgetCompleteStep => 'סימון הצעד כבוצע';
+
+  @override
+  String widgetLevel(String level) {
+    return 'רמה $level';
+  }
+
+  @override
+  String widgetXp(String xp, String need) {
+    return '$xp / $need XP';
+  }
+
+  @override
+  String widgetGold(String gold) {
+    return '$gold זהב';
+  }
+
+  @override
+  String get widgetStreak => 'רצף';
+
+  @override
+  String get widgetStreakWarn => 'צריך להשלים משימה היום';
+
+  @override
+  String get widgetStreakDone => 'בוצע היום';
+
+  @override
+  String get widgetNextStep => 'הצעד הבא';
+
+  @override
+  String widgetStepsLeft(String count) {
+    return 'צעדים שנותרו: $count';
+  }
+
+  @override
+  String get widgetOpenApp => 'פתיחת ZT Quests';
 }

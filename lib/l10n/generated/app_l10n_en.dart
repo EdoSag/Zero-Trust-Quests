@@ -933,4 +933,72 @@ class AppL10nEn extends AppL10n {
   @override
   String get reminderBody =>
       'Today\'s quests are ready. Keep your streak going!';
+
+  @override
+  String get widgetDetails => 'Show details on the home screen';
+
+  @override
+  String get widgetDetailsBody =>
+      'Off: the widgets show your level, gold, streak and how many steps are left. On: the steps of today\'s quests and your goal names are stored unencrypted on this phone for the home screen.';
+
+  @override
+  String get widgetTodayTitle => 'Today\'s quest';
+
+  @override
+  String widgetStepsDone(String done, String total) {
+    return '$done of $total steps done';
+  }
+
+  @override
+  String get widgetAllDone => 'All done for today!';
+
+  @override
+  String get widgetSignedOut => 'Signed out';
+
+  @override
+  String get widgetOpenToSee => 'Open ZT Quests to see your quests';
+
+  @override
+  String get widgetNewDay => 'New quests are ready. Open ZT Quests.';
+
+  @override
+  String get widgetNoQuests => 'No quests today. Add a goal in ZT Quests.';
+
+  @override
+  String get widgetCompleteStep => 'Complete this step';
+
+  @override
+  String widgetLevel(String level) {
+    return 'Level $level';
+  }
+
+  @override
+  String widgetXp(String xp, String need) {
+    return '$xp / $need XP';
+  }
+
+  @override
+  String widgetGold(String gold) {
+    return '$gold gold';
+  }
+
+  @override
+  String get widgetStreak => 'Streak';
+
+  @override
+  String get widgetStreakWarn => 'Do a quest today';
+
+  @override
+  String get widgetStreakDone => 'Done today';
+
+  @override
+  String get widgetNextStep => 'Next step';
+
+  @override
+  String widgetStepsLeft(String count) {
+    return 'Steps left: $count';
+  }
+
+  @override
+  String get widgetOpenApp => 'Open ZT Quests';
 }
