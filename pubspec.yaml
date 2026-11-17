@@ -29,6 +29,8 @@ dependencies:
       ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
   flutter_riverpod: ^3.5.0
   supabase_flutter: ^2.9.0
+  # Reset links from account emails (EmailLinks).
+  app_links: ">=6.4.0 <8.0.0"
   flutter_dotenv: ^6.0.1
   intl: any
   url_launcher: ^6.3.1

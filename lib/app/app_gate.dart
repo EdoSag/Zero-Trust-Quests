@@ -19,6 +19,7 @@ import '../ui/quest_actions.dart';
 import '../widgets/quests_widgets.dart';
 import 'auth_providers.dart';
 import 'quests_settings.dart';
+import 'email_links.dart';
 
 ReminderTexts _reminderTexts(AppL10n l) => ReminderTexts(
   channel: l.reminderChannel,
@@ -85,7 +86,7 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
   }
 
   void _forgotPassword() => Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (_) => const ZtForgotPasswordScreen()),
+    MaterialPageRoute<void>(builder: (_) => ZtForgotPasswordScreen(redirectTo: EmailLinks.passwordReset)),
   );
 
   @override
@@ -135,6 +136,7 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
     final user = ref.watch(currentUserProvider);
     if (user == null || _signingIn) {
       return ZtSignInScreen(
+        emailRedirectTo: EmailLinks.confirmed,
         onUnlocked: _onUnlocked,
         onForgotPassword: _forgotPassword,
       );
