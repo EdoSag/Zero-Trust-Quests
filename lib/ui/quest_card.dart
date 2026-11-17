@@ -161,13 +161,22 @@ class _StepRow extends ConsumerWidget {
     final fromHealth = activityById[step.activity]?.health != null;
     final streak = step.activity == 'streak';
     Future<void> setProgress(double p) async {
-      final stored = quest.steps[index];
+      // Start from the latest stored quest: Health Connect or another
+      // phone may have changed other steps while the amount sheet was open.
+      final latest =
+          (ref.read(questsProvider).value ?? const <Quest>[])
+              .where((q) => q.id == quest.id)
+              .firstOrNull ??
+          quest;
+      if (index >= latest.steps.length) return;
+      final stored = latest.steps[index];
       // An epic keeps only what was logged by hand on top of the dailies.
-      final value = quest.isDaily || quest.mode == EpicMode.best
+      final value = latest.isDaily || latest.mode == EpicMode.best
           ? p
           : stored.progress + (p - step.progress);
-      final steps = [...quest.steps]..[index] = stored.withProgress(value);
-      await saveProgress(context, ref, quest.copyWith(steps: steps));
+      final steps = [...latest.steps]..[index] = stored.withProgress(value);
+      if (!context.mounted) return;
+      await saveProgress(context, ref, latest.copyWith(steps: steps));
     }
 
     if (check) {

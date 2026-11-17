@@ -54,6 +54,10 @@ class LocalDailyReminder implements DailyReminder {
   static const _firstId = 100;
   static const _maxDays = 14;
 
+  /// Repeats every day after the dated ones, so the reminder keeps coming
+  /// when the app stays closed for longer than [days].
+  static const _repeatId = _firstId + _maxDays;
+
   Future<void> _init() => _ready ??= _plugin.initialize(
     settings: const InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -96,9 +100,10 @@ class LocalDailyReminder implements DailyReminder {
     for (var i = 0; i < _maxDays; i++) {
       await _plugin.cancel(id: _firstId + i);
     }
+    await _plugin.cancel(id: _repeatId);
     if (minutes == null) return;
     final now = DateTime.now();
-    for (var i = 0; i < days; i++) {
+    for (var i = 0; i <= days; i++) {
       final at = DateTime(
         now.year,
         now.month,
@@ -107,8 +112,11 @@ class LocalDailyReminder implements DailyReminder {
         minutes % 60,
       );
       if (!at.isAfter(now) || (i == 0 && skipToday)) continue;
+      // The last one repeats daily at the same time (UTC, so it can drift
+      // by an hour over a daylight saving change until the app opens).
+      final last = i == days;
       await _plugin.zonedSchedule(
-        id: _firstId + i,
+        id: last ? _repeatId : _firstId + i,
         title: texts.title,
         body: texts.body,
         // An absolute instant, so the time zone database doesn't matter.
@@ -123,6 +131,7 @@ class LocalDailyReminder implements DailyReminder {
           iOS: const DarwinNotificationDetails(),
         ),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: last ? DateTimeComponents.time : null,
       );
     }
   }
