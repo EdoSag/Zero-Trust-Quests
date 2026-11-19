@@ -1,7 +1,7 @@
 name: zerotrust_quests
 description: "Zero-Trust Quests: daily quests from your own goals, with XP, gold and levels. End-to-end encrypted."
 publish_to: none
-version: 0.1.0+1
+version: 0.2.0+2
 
 environment:
   sdk: ^3.9.0
@@ -29,6 +29,8 @@ dependencies:
       ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
   flutter_riverpod: ^3.5.0
   supabase_flutter: ^2.9.0
+  # Reset links from account emails (EmailLinks).
+  app_links: ">=6.4.0 <8.0.0"
   flutter_dotenv: ^6.0.1
   intl: any
   url_launcher: ^6.3.1
@@ -38,6 +40,8 @@ dependencies:
   health: ^13.3.2
   # The daily "your quests are ready" reminder, scheduled on the phone.
   flutter_local_notifications: ^23.0.0
+  # Home screen widgets (Android).
+  home_widget: ^0.9.4
   timezone: ^0.11.2
 
 dev_dependencies:

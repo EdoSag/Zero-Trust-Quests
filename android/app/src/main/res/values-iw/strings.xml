@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home screen widgets, Hebrew. -->
+<resources>
+    <string name="widget_today_label">המשימה של היום</string>
+    <string name="widget_today_description">הצעדים של המשימה היומית, לסימון ישירות ממסך הבית</string>
+    <string name="widget_hero_label">גיבור</string>
+    <string name="widget_hero_description">הרמה, התואר, ה-XP והזהב שלך</string>
+    <string name="widget_streak_label">רצף</string>
+    <string name="widget_streak_description">ימים ברצף, עם אזהרה כל עוד המשימה של היום לא הושלמה</string>
+    <string name="widget_next_label">הצעד הבא</string>
+    <string name="widget_next_description">הצעד הבא במשימות של היום, שמתחלף כשמסיימים אותו</string>
+    <string name="widget_today_title">המשימה של היום</string>
+    <string name="widget_steps_done">%1$d מתוך %2$d צעדים בוצעו</string>
+    <string name="widget_all_done">סיימת את כל המשימות להיום!</string>
+    <string name="widget_signed_out">מנותק</string>
+    <string name="widget_open_to_see">צריך לפתוח את ZT Quests כדי לראות את המשימות</string>
+    <string name="widget_new_day">משימות חדשות מחכות. צריך לפתוח את ZT Quests.</string>
+    <string name="widget_no_quests">אין משימות היום. אפשר להוסיף יעד ב-ZT Quests.</string>
+    <string name="widget_complete_step">סימון הצעד כבוצע</string>
+    <string name="widget_level">רמה %d</string>
+    <string name="widget_xp">%1$d / %2$d XP</string>
+    <string name="widget_gold">%d זהב</string>
+    <string name="widget_streak">רצף</string>
+    <string name="widget_streak_warn">צריך להשלים משימה היום</string>
+    <string name="widget_streak_done">בוצע היום</string>
+    <string name="widget_next_step">הצעד הבא</string>
+    <string name="widget_steps_left">צעדים שנותרו: %d</string>
+    <string name="widget_open_app">פתיחת ZT Quests</string>
+    <string name="widget_title_novice">מתחיל</string>
+    <string name="widget_preview_step_0">25 שכיבות סמיכה</string>
+    <string name="widget_preview_step_1">ריצה של 1 ק\"מ</string>
+    <string name="widget_preview_step_2">פלאנק במשך 45 שניות</string>
+</resources>

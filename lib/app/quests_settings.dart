@@ -6,7 +6,11 @@ import 'package:zero_trust_core/zero_trust_core.dart';
 /// (not synced: Health Connect and reminders are per phone).
 @immutable
 class QuestsSettings {
-  const QuestsSettings({this.useHealth = false, this.reminderMinutes});
+  const QuestsSettings({
+    this.useHealth = false,
+    this.reminderMinutes,
+    this.widgetDetails = false,
+  });
 
   /// Fill steps, distance, workouts, sleep and water from Health Connect.
   final bool useHealth;
@@ -14,16 +18,22 @@ class QuestsSettings {
   /// Daily reminder, minutes after midnight; null for none.
   final int? reminderMinutes;
 
+  /// Step texts and goal names on the home screen widgets (stored
+  /// unencrypted on the phone). Off by default.
+  final bool widgetDetails;
+
   static const _unset = Object();
 
   QuestsSettings copyWith({
     bool? useHealth,
     Object? reminderMinutes = _unset,
+    bool? widgetDetails,
   }) => QuestsSettings(
     useHealth: useHealth ?? this.useHealth,
     reminderMinutes: identical(reminderMinutes, _unset)
         ? this.reminderMinutes
         : reminderMinutes as int?,
+    widgetDetails: widgetDetails ?? this.widgetDetails,
   );
 }
 
@@ -35,6 +45,7 @@ final questsSettingsProvider =
 class QuestsSettingsController extends Notifier<QuestsSettings> {
   static const _health = 'quests.useHealth';
   static const _reminder = 'quests.reminder';
+  static const _widgetDetails = 'quests.widgetDetails';
 
   @override
   QuestsSettings build() {
@@ -48,9 +59,11 @@ class QuestsSettingsController extends Notifier<QuestsSettings> {
     try {
       final health = await _prefs.read(_health);
       final reminder = await _prefs.read(_reminder);
+      final widgetDetails = await _prefs.read(_widgetDetails);
       state = QuestsSettings(
         useHealth: health == 'true',
         reminderMinutes: int.tryParse(reminder ?? ''),
+        widgetDetails: widgetDetails == 'true',
       );
     } on Object {
       // Defaults.
@@ -60,6 +73,11 @@ class QuestsSettingsController extends Notifier<QuestsSettings> {
   Future<void> setUseHealth(bool on) async {
     state = state.copyWith(useHealth: on);
     await _prefs.write(_health, '$on');
+  }
+
+  Future<void> setWidgetDetails(bool on) async {
+    state = state.copyWith(widgetDetails: on);
+    await _prefs.write(_widgetDetails, '$on');
   }
 
   Future<void> setReminder(int? minutes) async {

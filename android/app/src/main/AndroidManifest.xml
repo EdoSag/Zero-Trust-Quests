@@ -36,6 +36,17 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Links are handled by the app's own code (supabase_flutter's app_links, and the
+                 native link handling in MainActivity), not Flutter's router: AppGate has no
+                 route for them. -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false"/>
+            <!-- Password-reset emails: https://zerotrust.bz/auth/quests/?code=… (see EmailLinks). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="zerotrust.bz" android:pathPrefix="/auth/quests/"/>
+            </intent-filter>
             <!-- Health Connect's "why does this app want access" link. -->
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
@@ -59,6 +70,56 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Home screen widgets. The providers are exported for the
+             launcher but only draw; ticks go to the receiver below, which
+             other apps can't reach. -->
+        <receiver
+            android:name=".widgets.TodayQuestWidgetProvider"
+            android:label="@string/widget_today_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_today_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.HeroWidgetProvider"
+            android:label="@string/widget_hero_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_hero_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.StreakWidgetProvider"
+            android:label="@string/widget_streak_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_streak_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.NextStepWidgetProvider"
+            android:label="@string/widget_next_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_next_step_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.QuestsWidgetTapReceiver"
+            android:exported="false" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>

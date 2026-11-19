@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   app_links:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: app_links
       sha256: "08ba88bf19d9edea33130cb71c8ced2cb982b4e00b82efef4a434d1357bc69c3"
@@ -389,6 +389,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "13.3.2"
+  home_widget:
+    dependency: "direct main"
+    description:
+      name: home_widget
+      sha256: b8d377e6a5aacc65193170addf252cce7868fa621b740cdd7b517a233871c185
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.4"
   hooks:
     dependency: transitive
     description:
