@@ -907,7 +907,7 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get useHealthHint =>
-      'מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (כשהכתיבה ל-Health פעילה), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.';
+      'מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (יש להפעיל בהגדרות שלה את \"שמירת אימונים ומים ב-Health Connect\"), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.';
 
   @override
   String get healthUnavailable => 'Health Connect לא זמין בטלפון הזה.';

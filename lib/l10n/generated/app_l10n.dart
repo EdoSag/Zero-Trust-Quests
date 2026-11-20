@@ -1636,7 +1636,7 @@ abstract class AppL10n {
   /// No description provided for @useHealthHint.
   ///
   /// In en, this message translates to:
-  /// **'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.'**
+  /// **'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.'**
   String get useHealthHint;
 
   /// No description provided for @healthUnavailable.
