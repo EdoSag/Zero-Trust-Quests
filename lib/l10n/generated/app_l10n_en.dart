@@ -908,7 +908,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get useHealthHint =>
-      'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.';
+      'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.';
 
   @override
   String get healthUnavailable =>

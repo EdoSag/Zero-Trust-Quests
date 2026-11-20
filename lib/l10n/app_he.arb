@@ -256,7 +256,7 @@
   "buyTitle": "לקנות?",
   "buyBody": "זה עולה {n} זהב.",
   "useHealth": "שימוש ב-Health Connect",
-  "useHealthHint": "מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (כשהכתיבה ל-Health פעילה), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.",
+  "useHealthHint": "מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (יש להפעיל בהגדרות שלה את \"שמירת אימונים ומים ב-Health Connect\"), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.",
   "healthUnavailable": "Health Connect לא זמין בטלפון הזה.",
   "healthRefused": "לא ניתנה גישה ל-Health Connect.",
   "dailyReminder": "תזכורת יומית",

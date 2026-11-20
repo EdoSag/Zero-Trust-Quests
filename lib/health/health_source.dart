@@ -16,6 +16,19 @@ class HealthDay {
   double? operator [](HealthMetric m) => values[m];
 }
 
+/// A glass (or cup) of water: 8 US fl oz, about 237 ml.
+const litersPerGlass = 0.2365882365;
+
+/// Whole glasses in [liters] of water, as water quests count them.
+///
+/// ZT Fitness logs water in 250 ml glasses, or 8 fl oz ones when set to
+/// imperial units. Counting a glass as 8 fl oz makes one tap there one
+/// glass here either way (a 250 ml glass is a little more than a glass, so
+/// it never falls short). The small allowance keeps a full glass a full
+/// glass after Health Connect's rounding.
+double glassesFromLiters(double liters) =>
+    liters <= 0 ? 0 : (liters / litersPerGlass + 0.02).floorToDouble();
+
 /// Where activity data comes from. Read on the phone only; nothing is sent
 /// anywhere except the quest progress it fills in, which is encrypted.
 abstract class HealthSource {
@@ -131,10 +144,8 @@ class HealthConnectSource implements HealthSource {
       if (workoutMinutes > 0) {
         values[HealthMetric.workoutMinutes] = workoutMinutes.floorToDouble();
       }
-      // A glass is 250 ml.
-      if (liters > 0) {
-        values[HealthMetric.waterGlasses] = (liters * 4).floorToDouble();
-      }
+      final glasses = glassesFromLiters(liters);
+      if (glasses > 0) values[HealthMetric.waterGlasses] = glasses;
     } on Object {
       // Not allowed or not recorded.
     }

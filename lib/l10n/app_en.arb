@@ -640,7 +640,7 @@
     }
   },
   "useHealth": "Use Health Connect",
-  "useHealthHint": "Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.",
+  "useHealthHint": "Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.",
   "healthUnavailable": "Health Connect is not available on this phone.",
   "healthRefused": "Health Connect access was not allowed.",
   "dailyReminder": "Daily reminder",
