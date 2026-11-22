@@ -110,7 +110,7 @@ Map<HealthMetric, double> workoutValues(
   }..removeWhere((_, v) => v <= 0);
 }
 
-/// Overlapping (or touching) sessions joined: each group's start, end and
+/// Overlapping sessions joined: each group's start, end and
 /// the sessions in it.
 List<(DateTime, DateTime, List<WorkoutSession>)> _merged(
   Iterable<WorkoutSession> sessions,
@@ -121,7 +121,9 @@ List<(DateTime, DateTime, List<WorkoutSession>)> _merged(
   ]..sort((a, b) => a.from.compareTo(b.from));
   final out = <(DateTime, DateTime, List<WorkoutSession>)>[];
   for (final w in sorted) {
-    if (out.isNotEmpty && !w.from.isAfter(out.last.$2)) {
+    // Only true overlaps: back-to-back runs are two runs, each with its
+    // own distance.
+    if (out.isNotEmpty && w.from.isBefore(out.last.$2)) {
       final (from, to, group) = out.last;
       out.last = (from, w.to.isAfter(to) ? w.to : to, [...group, w]);
     } else {

@@ -1011,4 +1011,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get workoutAccessAllow => 'Allow';
+
+  @override
+  String get runLogged => 'Run logged';
 }

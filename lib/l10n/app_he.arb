@@ -285,5 +285,6 @@
   "widgetOpenApp": "פתיחת ZT Quests",
   "workoutAccessTitle": "ספירת האימונים שלך",
   "workoutAccessBody": "אימונים מ-ZT Fitness או מהשעון יכולים למלא משימות של אימון, ריצה, מתיחות והליכה. Health Connect משתף אותם רק אם ZT Quests רשאית לקרוא גם קלוריות שנשרפו. נקרא רק בטלפון הזה.",
-  "workoutAccessAllow": "אישור"
+  "workoutAccessAllow": "אישור",
+  "runLogged": "ריצה נרשמה"
 }

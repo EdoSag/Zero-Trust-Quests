@@ -199,10 +199,24 @@ void main() {
       ]);
       final changed = HealthFill.apply([q], day, HealthDay(v)).single;
       expect(changed.steps[0].done, isTrue);
+      expect(changed.steps[0].progress, 0, reason: 'no kilometres made up');
       expect(changed.steps[1].progress, 0);
+      // It stays finished, and reading again changes nothing.
+      final again = QuestStep.fromJson(changed.steps[0].toJson());
+      expect(again.done, isTrue);
+      expect(HealthFill.apply([changed], day, HealthDay(v)), isEmpty);
+      // A distance recorded later still counts.
+      final later = HealthFill.apply(
+        [changed],
+        day,
+        HealthDay({...v, HealthMetric.runKm: 2.5}),
+      ).single;
+      expect(later.steps[0].progress, 2.5);
+      expect(later.steps[0].done, isTrue);
     });
 
-    test('but only a distance counts toward an epic run', () {
+    test('but adds no distance to an epic run, directly or through the '
+        'day\'s quest', () {
       const epic = Quest(
         id: 'epic-run',
         goalId: 'g1',
@@ -216,7 +230,13 @@ void main() {
         gold: 20,
       );
       final v = values([session(HealthWorkoutActivityType.RUNNING, at(7), 30)]);
-      expect(HealthFill.apply([epic], day, HealthDay(v)), isEmpty);
+      final dailyRun = daily([const QuestStep(activity: 'run', target: 5)]);
+      final changed = HealthFill.apply([epic, dailyRun], day, HealthDay(v));
+      expect(changed.single.isDaily, isTrue);
+      expect(changed.single.stepsDone, isTrue);
+      final epicStep = QuestEngine.epicSteps(epic, changed).single;
+      expect(epicStep.progress, 0);
+      expect(epicStep.done, isFalse);
     });
 
     test('yoga fills stretching and walks fill walking outside', () {
@@ -251,6 +271,15 @@ void main() {
         isNull,
         reason: 'the run belongs to the day it started',
       );
+    });
+
+    test('back-to-back runs are two runs, each with its distance', () {
+      final v = values([
+        session(HealthWorkoutActivityType.RUNNING, at(7), 15, meters: 2000),
+        session(HealthWorkoutActivityType.RUNNING, at(7, 15), 20, meters: 3000),
+      ]);
+      expect(v[HealthMetric.runKm], 5);
+      expect(v[HealthMetric.workoutMinutes], 35);
     });
 
     test('never lowers minutes logged by hand', () {

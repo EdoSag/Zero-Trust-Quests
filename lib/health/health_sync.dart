@@ -27,21 +27,23 @@ abstract final class HealthFill {
           () {
             final activity = activityById[s.activity];
             final metric = activity?.health;
-            var v = metric == null ? null : health[metric];
-            // A run logged without a distance finishes the day's run.
-            final finishedBy = activity?.finishedBy;
-            if (q.isDaily &&
-                finishedBy != null &&
-                (health[finishedBy] ?? 0) > 0 &&
-                (v ?? 0) < s.target) {
-              v = s.target;
+            final v = metric == null ? null : health[metric];
+            if (q.isDaily) {
+              var next = s;
+              // A run logged without a distance finishes the day's run,
+              // without adding kilometres (which would reach epics).
+              final finishedBy = activity?.finishedBy;
+              if (finishedBy != null &&
+                  (health[finishedBy] ?? 0) > 0 &&
+                  !next.finished) {
+                next = next.asFinished();
+              }
+              if (v != null && v > next.progress) next = next.withProgress(v);
+              if (next == s) return s;
+              changed = true;
+              return next;
             }
             if (v == null) return s;
-            if (q.isDaily) {
-              if (v <= s.progress) return s;
-              changed = true;
-              return s.withProgress(v);
-            }
             if ((s.byDay[day] ?? -1) == v) return s;
             changed = true;
             return s.withDay(day, v);

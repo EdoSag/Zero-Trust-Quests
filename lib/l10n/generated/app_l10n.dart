@@ -1812,6 +1812,12 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Allow'**
   String get workoutAccessAllow;
+
+  /// No description provided for @runLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Run logged'**
+  String get runLogged;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

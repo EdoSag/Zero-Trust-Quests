@@ -1008,4 +1008,7 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get workoutAccessAllow => 'אישור';
+
+  @override
+  String get runLogged => 'ריצה נרשמה';
 }
