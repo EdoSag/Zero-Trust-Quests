@@ -198,8 +198,12 @@ abstract final class TaskRewards {
   static String roundIdFor(String taskId, String dueDay) =>
       'task-$taskId-$dueDay';
 
+  /// Marks, in [plan]'s seen map, a one-off task this phone saw done.
+  static const seenDone = 'done';
+
   /// [existing] are the task rewards saved so far; [seen] each repeating
-  /// task's due day when last looked at, on this phone.
+  /// task's due day when last looked at on this phone, or [seenDone] for a
+  /// one-off task this phone saw done.
   static TaskRewardPlan plan({
     required List<LinkedTask> tasks,
     required TasksLink link,
@@ -235,6 +239,7 @@ abstract final class TaskRewards {
       if (t.completed) {
         final done = t.completedAt == null ? null : dayKey(t.completedAt!);
         if (done == null || !counts(done)) continue;
+        if (!t.repeats) nextSeen[t.id] = seenDone;
         // A repeating task whose repeats ended is ticked off like any task.
         add(
           t,
@@ -244,8 +249,12 @@ abstract final class TaskRewards {
         continue;
       }
       if (!t.repeats) {
-        // Ticked back on: it wasn't done after all.
-        if (!t.deleted && existing.contains(idFor(t.id))) {
+        // Ticked back on: it wasn't done after all. Only when this phone
+        // saw it done: a copy of ZT Tasks that hasn't caught up yet (the
+        // reward came from another phone) isn't an undo.
+        if (!t.deleted &&
+            seen[t.id] == seenDone &&
+            existing.contains(idFor(t.id))) {
           delete.add(idFor(t.id));
         }
         continue;

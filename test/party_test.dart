@@ -15,6 +15,7 @@ import 'support/app.dart';
 
 const alice = '11111111-1111-4111-8111-111111111111';
 const bob = '22222222-2222-4222-8222-222222222222';
+const carol = '33333333-3333-4333-8333-333333333333';
 
 Quest daily(String day, {bool done = true, String goal = 'g'}) => Quest(
   id: 'daily-$goal-$day-0',
@@ -159,6 +160,64 @@ void main() {
       expect(PartyMember.fromJson('member/', {'damage': 3}), isNull);
       expect(PartyMember.fromJson('party', {'damage': 3}), isNull);
       expect(PartyMember.fromJson('member/$alice', {'damage': -5})?.damage, 0);
+    });
+
+    test('a beaten boss stays for helpers who were offline', () {
+      final hunt = party.nextHunt('2026-11-20', 3);
+      final beaten = HuntState.of(
+        party: hunt,
+        members: {alice: 'Alice', bob: 'Bob', carol: 'Carol'},
+        progress: {
+          alice: const PartyMember(userId: alice, round: 1, damage: 120),
+          bob: const PartyMember(userId: bob, round: 1, damage: 20),
+          carol: const PartyMember(userId: carol, round: 1),
+        },
+      );
+      expect(beaten.defeated, isTrue);
+      final next = hunt
+          .rememberWin(beaten)
+          .nextHunt('2026-11-24', 7, salt: 's');
+      expect(next.round, 2);
+      final back = Party.fromJson(next.toJson());
+      expect(back.won.single.round, 1);
+      expect(back.won.single.days, 3);
+      expect(back.won.single.helpers, unorderedEquals([alice, bob]));
+      final r = pastHuntReward(
+        spaceId: 's1',
+        hunt: back.won.single,
+        day: '2026-11-25',
+      );
+      // The same id as when taken during the hunt: never twice.
+      expect(
+        r.id,
+        partyReward(spaceId: 's1', party: hunt, day: '2026-11-22').id,
+      );
+      expect(r.xp, PartyRules.rewardXp(3));
+
+      // Not beaten: nothing kept.
+      final lost = HuntState.of(
+        party: hunt,
+        members: {alice: 'Alice'},
+        progress: const {},
+      );
+      expect(hunt.rememberWin(lost).won, isEmpty);
+
+      // Only the last few are kept.
+      var p = party;
+      for (var i = 0; i < Party.keepWon + 2; i++) {
+        p = p.nextHunt('2026-11-20', 3);
+        p = p.rememberWin(
+          HuntState.of(
+            party: p,
+            members: {alice: 'Alice'},
+            progress: {
+              alice: PartyMember(userId: alice, round: p.round, damage: 999),
+            },
+          ),
+        );
+      }
+      expect(p.won.length, Party.keepWon);
+      expect(p.won.last.round, Party.keepWon + 2);
     });
 
     test('beating a boss is one reward per hunt', () {

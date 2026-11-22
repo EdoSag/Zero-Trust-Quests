@@ -142,12 +142,21 @@ void main() {
         completed: true,
         completedAt: DateTime(2026, 11, 17),
       );
-      expect(plan([done], existing: {'task-a'}).save, isEmpty);
-      final undone = plan([task('a')], existing: {'task-a'});
+      final first = plan([done], existing: {'task-a'});
+      expect(first.save, isEmpty);
+      expect(first.seen, {'a': TaskRewards.seenDone});
+      final undone = plan([task('a')], existing: {'task-a'}, seen: first.seen);
       expect(undone.delete, ['task-a']);
+      // Earned on another phone, and this phone's copy of ZT Tasks hasn't
+      // caught up: not an undo.
+      expect(plan([task('a')], existing: {'task-a'}).delete, isEmpty);
       // Trashed after being done: the XP stays.
       expect(
-        plan([task('a', deleted: true)], existing: {'task-a'}).delete,
+        plan(
+          [task('a', deleted: true)],
+          existing: {'task-a'},
+          seen: first.seen,
+        ).delete,
         isEmpty,
       );
     });

@@ -151,7 +151,11 @@ class PartyActions {
 
   /// A new hunt (owners only), once the last one is over.
   Future<void> newHunt(PartyData p, {required String day, required int days}) {
-    return _save(p.spaceId, p.party!.nextHunt(day, days, salt: p.spaceId));
+    var party = p.party!;
+    // A beaten boss stays on the party, so helpers whose phones were
+    // offline still take its reward when they come back.
+    if (p.hunt case final hunt?) party = party.rememberWin(hunt);
+    return _save(p.spaceId, party.nextHunt(day, days, salt: p.spaceId));
   }
 
   Future<void> rename(PartyData p, String name) =>
@@ -239,6 +243,15 @@ class PartyActions {
           party: party,
           day: today,
         );
+        if (!have.contains(reward.id)) {
+          await repo.saveReward(reward);
+          have.add(reward.id);
+        }
+      }
+      // Bosses beaten while this phone was away.
+      for (final w in party.won) {
+        if (!w.helpers.contains(p.myUserId)) continue;
+        final reward = pastHuntReward(spaceId: p.spaceId, hunt: w, day: today);
         if (!have.contains(reward.id)) {
           await repo.saveReward(reward);
           have.add(reward.id);

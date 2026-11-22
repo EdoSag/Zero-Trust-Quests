@@ -54,6 +54,47 @@ abstract final class PartyRules {
   static int rewardGold(int days) => math.max(10, rewardXp(days) ~/ 3);
 }
 
+/// A boss the party beat, kept on the party after the next hunt starts so
+/// that a helper whose phone was offline still gets the reward. [helpers]
+/// are the members who had hit it when the owner moved on.
+@immutable
+class PastHunt {
+  const PastHunt({
+    required this.round,
+    required this.boss,
+    required this.days,
+    this.helpers = const [],
+  });
+
+  final int round;
+  final String boss;
+  final int days;
+  final List<String> helpers;
+
+  Map<String, Object?> toJson() => {
+    'round': round,
+    'boss': boss,
+    'days': days,
+    'helpers': helpers,
+  };
+
+  static PastHunt? fromJson(Object? j) {
+    if (j is! Map) return null;
+    final round = (j['round'] as num?)?.toInt() ?? 0;
+    final days = (j['days'] as num?)?.toInt() ?? 0;
+    if (round <= 0 || days <= 0) return null;
+    return PastHunt(
+      round: round,
+      boss: (j['boss'] as String?) ?? '',
+      days: days,
+      helpers: [
+        for (final h in (j['helpers'] as List?) ?? const [])
+          if (h is String) h,
+      ],
+    );
+  }
+}
+
 /// A party: friends on one end-to-end encrypted shared space, hunting one
 /// boss at a time. Only the party's owners change it (item [itemId], kind
 /// [kind], admin-only).
@@ -66,9 +107,13 @@ class Party {
     this.boss = '',
     this.start = '',
     this.end = '',
+    this.won = const [],
   });
 
   static const itemId = 'party';
+
+  /// How many beaten hunts a party keeps for helpers who were offline.
+  static const keepWon = 5;
   static const kind = 'party';
 
   final String name;
@@ -81,6 +126,9 @@ class Party {
   /// The hunt's days, both included.
   final String start;
   final String end;
+
+  /// Recently beaten hunts, newest last.
+  final List<PastHunt> won;
 
   bool get hasHunt => round > 0 && start.isNotEmpty && end.isNotEmpty;
   int get days => hasHunt ? daysBetween(start, end) + 1 : 0;
@@ -109,6 +157,36 @@ class Party {
       boss: partyBosses[pick],
       start: day,
       end: addDays(day, days - 1),
+      won: won,
+    );
+  }
+
+  /// Keeps [hunt], beaten, with everyone who hit it, before the next hunt
+  /// replaces it.
+  Party rememberWin(HuntState hunt) {
+    if (!hunt.defeated || hunt.party.round != round) return this;
+    final entry = PastHunt(
+      round: round,
+      boss: boss,
+      days: days,
+      helpers: [
+        for (final s in hunt.board)
+          if (s.damage > 0) s.userId,
+      ],
+    );
+    final kept = [
+      for (final w in won)
+        if (w.round != round) w,
+      entry,
+    ];
+    return Party(
+      name: name,
+      difficulty: difficulty,
+      round: round,
+      boss: boss,
+      start: start,
+      end: end,
+      won: kept.length > keepWon ? kept.sublist(kept.length - keepWon) : kept,
     );
   }
 
@@ -119,6 +197,7 @@ class Party {
     boss: boss,
     start: start,
     end: end,
+    won: won,
   );
 
   Map<String, Object?> toJson() => {
@@ -129,6 +208,7 @@ class Party {
     'boss': boss,
     'start': start,
     'end': end,
+    if (won.isNotEmpty) 'won': [for (final w in won) w.toJson()],
   };
 
   static Party fromJson(Map<String, Object?> j) => Party(
@@ -138,6 +218,10 @@ class Party {
     boss: (j['boss'] as String?) ?? '',
     start: (j['start'] as String?) ?? '',
     end: (j['end'] as String?) ?? '',
+    won: [
+      for (final w in (j['won'] as List?) ?? const [])
+        if (PastHunt.fromJson(w) case final p?) p,
+    ],
   );
 }
 
@@ -320,12 +404,23 @@ Reward partyReward({
   required String spaceId,
   required Party party,
   required String day,
+}) => pastHuntReward(
+  spaceId: spaceId,
+  hunt: PastHunt(round: party.round, boss: party.boss, days: party.days),
+  day: day,
+);
+
+/// The same reward, for a beaten hunt the party has moved on from.
+Reward pastHuntReward({
+  required String spaceId,
+  required PastHunt hunt,
+  required String day,
 }) => Reward(
-  id: 'party-$spaceId-${party.round}',
+  id: 'party-$spaceId-${hunt.round}',
   source: RewardSource.party,
   day: day,
-  xp: PartyRules.rewardXp(party.days),
-  gold: PartyRules.rewardGold(party.days),
-  title: party.boss,
+  xp: PartyRules.rewardXp(hunt.days),
+  gold: PartyRules.rewardGold(hunt.days),
+  title: hunt.boss,
   ref: spaceId,
 );
