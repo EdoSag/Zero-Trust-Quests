@@ -1,7 +1,7 @@
 name: zerotrust_quests
 description: "Zero-Trust Quests: daily quests from your own goals, with XP, gold and levels. End-to-end encrypted."
 publish_to: none
-version: 0.3.0+4
+version: 0.4.0+5
 
 environment:
   sdk: ^3.9.0
@@ -26,6 +26,14 @@ dependencies:
     git:
       url: https://github.com/EdoSag/Zero-Trust-Core.git
       path: packages/zero_trust_core
+      ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
+  # The shared sharing screens (people, invite by link or QR, join, compare
+  # codes), the same in every Zero-Trust app. Same commit as the core pin.
+  # Used by parties.
+  zt_sharing_ui:
+    git:
+      url: https://github.com/EdoSag/Zero-Trust-Core.git
+      path: packages/zt_sharing_ui
       ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
   flutter_riverpod: ^3.5.0
   supabase_flutter: ^2.9.0

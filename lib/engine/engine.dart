@@ -374,15 +374,17 @@ abstract final class QuestEngine {
   }
 
   /// [epic]'s steps with their real progress: what was logged by hand, plus
-  /// the goal's daily quests and Health Connect days inside its window.
+  /// the goal's daily quests and Health Connect days inside its window. An
+  /// epic without a goal (a seasonal event) counts every goal's dailies.
   static List<QuestStep> epicSteps(Quest epic, Iterable<Quest> quests) {
     final end = epic.deadline ?? epic.day;
     bool inWindow(String d) =>
         d.compareTo(epic.day) >= 0 && d.compareTo(end) <= 0;
+    final anyGoal = epic.goalId.isEmpty;
     final dailies = [
       for (final q in quests)
         if (q.isDaily &&
-            q.goalId == epic.goalId &&
+            (anyGoal || q.goalId == epic.goalId) &&
             q.declined == null &&
             inWindow(q.day))
           q,

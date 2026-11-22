@@ -6,6 +6,7 @@ import '../engine/engine.dart';
 import '../engine/hero.dart';
 import '../l10n/l10n.dart';
 import '../model/quest.dart';
+import '../model/reward.dart';
 import 'common.dart';
 import 'labels.dart';
 
@@ -34,8 +35,10 @@ Future<void> saveProgress(
   if (celebrate) toSave = updated.copyWith(claimed: true);
   await ref.read(questsRepositoryProvider).saveQuest(toSave);
   if (!celebrate || !context.mounted) return;
-  final before = HeroStats.compute(quests, purchases, day);
-  final now = HeroStats.compute(after, purchases, day);
+  // Rewards (ZT Tasks, parties) count towards the level too.
+  final rewards = ref.read(rewardsProvider).value ?? const <Reward>[];
+  final before = HeroStats.compute(quests, purchases, day, rewards: rewards);
+  final now = HeroStats.compute(after, purchases, day, rewards: rewards);
   await showDialog<void>(
     context: context,
     builder: (ctx) => _Celebration(

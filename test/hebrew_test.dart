@@ -50,7 +50,7 @@ void main() {
     final level = tester.getRect(find.text('שלב 1 · מתחיל'));
     final shield = tester.getRect(find.byIcon(Icons.shield).first);
     expect(shield.left, greaterThan(level.right));
-    for (final tab in ['אפיות', 'מטרות', 'גיבור']) {
+    for (final tab in ['אפיות', 'חבורה', 'מטרות', 'גיבור']) {
       await tester.tap(find.text(tab));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull, reason: tab);

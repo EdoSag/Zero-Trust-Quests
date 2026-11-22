@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/quests_store.dart';
 import '../engine/engine.dart';
+import '../engine/events.dart';
 import '../l10n/l10n.dart';
 import '../model/goal.dart';
 import '../model/quest.dart';
 import 'common.dart';
+import 'event_card.dart';
 import 'labels.dart';
 import 'quest_card.dart';
 
@@ -40,7 +42,9 @@ class EpicsTab extends ConsumerWidget {
       for (final g in goals)
         if (QuestEngine.epicOffer(g, quests, day) case final o?) (g, o),
     ];
-    final empty = active.isEmpty && past.isEmpty && offers.isEmpty;
+    final events = SeasonalEvents.offers(quests, day);
+    final empty =
+        active.isEmpty && past.isEmpty && offers.isEmpty && events.isEmpty;
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 96),
       children: [
@@ -53,6 +57,8 @@ class EpicsTab extends ConsumerWidget {
               body: l.noEpicsBody,
             ),
           ),
+        for (final run in events)
+          EventOfferCard(key: ValueKey(run.questId), run: run),
         for (final (g, o) in offers) EpicOfferCard(goal: g, offer: o),
         if (active.isNotEmpty) _Header(l.epicsRunning),
         for (final q in active)

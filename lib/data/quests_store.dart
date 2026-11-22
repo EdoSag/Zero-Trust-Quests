@@ -9,10 +9,13 @@ import '../engine/hero.dart';
 import '../model/days.dart';
 import '../model/goal.dart';
 import '../model/quest.dart';
+import '../model/reward.dart';
+import '../tasks/linked_tasks.dart';
 
-/// Goals, quests, purchases and the hero are items of the Quests app,
-/// sealed with its own key (`app = 'quests'`): `kind` goal, quest,
-/// purchase and hero. No database change.
+/// Goals, quests, purchases, rewards, the hero and the ZT Tasks link are
+/// items of the Quests app, sealed with its own key (`app = 'quests'`):
+/// `kind` goal, quest, purchase, reward, hero and tasks_link. No database
+/// change.
 final goalsCollection = ZtCollection<Goal>(
   kind: 'goal',
   fromJson: (id, json, _) => Goal.fromJson(id, json),
@@ -32,6 +35,22 @@ final purchasesCollection = ZtCollection<Purchase>(
   fromJson: (id, json, _) => Purchase.fromJson(id, json),
   toJson: (p) => p.toJson(),
   idOf: (p) => p.id,
+);
+
+/// Rewards from a source this version doesn't know read as null and are
+/// left out.
+final rewardsCollection = ZtCollection<Reward?>(
+  kind: 'reward',
+  fromJson: (id, json, _) => Reward.fromJson(id, json),
+  toJson: (r) => r!.toJson(),
+  idOf: (r) => r!.id,
+);
+
+final tasksLinkCollection = ZtCollection<TasksLink>(
+  kind: 'tasks_link',
+  fromJson: (_, json, _) => TasksLink.fromJson(json),
+  toJson: (l) => l.toJson(),
+  idOf: (_) => TasksLink.itemId,
 );
 
 const heroItemId = 'hero';
@@ -66,6 +85,18 @@ final questsProvider = StreamProvider<List<Quest>>(
 final purchasesProvider = StreamProvider<List<Purchase>>(
   (ref) => _watch(ref, purchasesCollection),
 );
+
+final rewardsProvider = StreamProvider<List<Reward>>((ref) {
+  return _watch(ref, rewardsCollection).map((l) => [...l.nonNulls]);
+});
+
+/// Which ZT Tasks lists count in Quests.
+final tasksLinkProvider = StreamProvider<TasksLink>((ref) {
+  return _watch(
+    ref,
+    tasksLinkCollection,
+  ).map((l) => l.isEmpty ? const TasksLink() : l.first);
+});
 
 final heroLookProvider = StreamProvider<HeroLook>((ref) {
   return _watch(
@@ -108,7 +139,13 @@ class TodayNotifier extends Notifier<String> {
 final heroStatsProvider = Provider<HeroStats>((ref) {
   final quests = ref.watch(questsProvider).value ?? const <Quest>[];
   final purchases = ref.watch(purchasesProvider).value ?? const <Purchase>[];
-  return HeroStats.compute(quests, purchases, ref.watch(todayProvider));
+  final rewards = ref.watch(rewardsProvider).value ?? const <Reward>[];
+  return HeroStats.compute(
+    quests,
+    purchases,
+    ref.watch(todayProvider),
+    rewards: rewards,
+  );
 });
 
 final questsRepositoryProvider = Provider<QuestsRepository>(
@@ -143,6 +180,18 @@ class QuestsRepository {
 
   Future<void> saveHero(HeroLook h) async =>
       heroCollection.save(_sync, await _store, h);
+
+  Future<List<Reward>> allRewards() async => [
+    ...(await rewardsCollection.list(await _store)).nonNulls,
+  ];
+
+  Future<void> saveReward(Reward r) async =>
+      rewardsCollection.save(_sync, await _store, r);
+
+  Future<void> deleteReward(String id) => rewardsCollection.delete(_sync, id);
+
+  Future<void> saveTasksLink(TasksLink link) async =>
+      tasksLinkCollection.save(_sync, await _store, link);
 
   /// Deletes a goal and every quest made for it. Their XP and gold go too.
   Future<void> deleteGoal(String id) async {

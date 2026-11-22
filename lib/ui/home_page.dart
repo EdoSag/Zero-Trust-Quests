@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/quests_store.dart';
 import '../l10n/l10n.dart';
+import '../party/party_pages.dart';
 import 'epics_tab.dart';
 import 'goal_wizard.dart';
 import 'goals_tab.dart';
@@ -10,7 +11,7 @@ import 'hero_tab.dart';
 import 'settings_page.dart';
 import 'today_tab.dart';
 
-/// Today, Epics, Goals and Hero, with Settings in the app bar.
+/// Today, Epics, Party, Goals and Hero, with Settings in the app bar.
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -26,14 +27,14 @@ class _HomePageState extends ConsumerState<HomePage> {
     final l = context.l10n;
     final goals = ref.watch(goalsProvider).value ?? const [];
     final active = goals.where((g) => !g.archived).toList();
-    final titles = [l.tabToday, l.tabEpics, l.tabGoals, l.tabHero];
+    final titles = [l.tabToday, l.tabEpics, l.tabParty, l.tabGoals, l.tabHero];
     final Widget? fab = switch (_tab) {
       1 when active.isNotEmpty => FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: Text(l.ownEpicTitle),
         onPressed: () => openOwnEpic(context, active),
       ),
-      2 => FloatingActionButton.extended(
+      3 => FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: Text(l.newGoal),
         onPressed: () => openGoalWizard(context),
@@ -56,9 +57,10 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
       body: switch (_tab) {
-        0 => TodayTab(onOpenHero: () => setState(() => _tab = 3)),
+        0 => TodayTab(onOpenHero: () => setState(() => _tab = 4)),
         1 => const EpicsTab(),
-        2 => const GoalsTab(),
+        2 => const PartyTab(),
+        3 => const GoalsTab(),
         _ => const HeroTab(),
       },
       floatingActionButton: fab,
@@ -75,6 +77,11 @@ class _HomePageState extends ConsumerState<HomePage> {
             icon: const Icon(Icons.landscape_outlined),
             selectedIcon: const Icon(Icons.landscape),
             label: l.tabEpics,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.groups_outlined),
+            selectedIcon: const Icon(Icons.groups),
+            label: l.tabParty,
           ),
           NavigationDestination(
             icon: const Icon(Icons.flag_outlined),
