@@ -707,5 +707,9 @@
       }
     }
   },
-  "widgetOpenApp": "Open ZT Quests"
+  "widgetOpenApp": "Open ZT Quests",
+  "workoutAccessTitle": "Count your workouts",
+  "workoutAccessBody": "Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.",
+  "workoutAccessAllow": "Allow",
+  "runLogged": "Run logged"
 }

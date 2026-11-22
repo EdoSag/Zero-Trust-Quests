@@ -1794,6 +1794,30 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Open ZT Quests'**
   String get widgetOpenApp;
+
+  /// No description provided for @workoutAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Count your workouts'**
+  String get workoutAccessTitle;
+
+  /// No description provided for @workoutAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.'**
+  String get workoutAccessBody;
+
+  /// No description provided for @workoutAccessAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get workoutAccessAllow;
+
+  /// No description provided for @runLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Run logged'**
+  String get runLogged;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

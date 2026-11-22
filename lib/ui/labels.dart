@@ -113,7 +113,9 @@ bool isCheckStep(QuestStep s) => s.activity == 'custom'
 
 /// "12 of 25 km" style progress, short.
 String progressText(AppL10n l, QuestStep s) =>
-    l.progressOf(fmtNum(s.progress), fmtNum(s.target));
+    s.finished && s.progress < s.target
+    ? l.runLogged
+    : l.progressOf(fmtNum(s.progress), fmtNum(s.target));
 
 String questTitle(AppL10n l, Quest q, Goal? g) {
   if (q.title.isNotEmpty) return q.title;

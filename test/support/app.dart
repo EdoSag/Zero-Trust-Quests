@@ -96,12 +96,16 @@ Widget app(
   List<Quest> quests = const [],
   Locale locale = ZtLanguages.english,
   String day = '2026-11-17',
+  HealthSource health = const NoHealthSource(),
+  PreferencesStore? prefs,
 }) {
   return ProviderScope(
     overrides: [
       ztAppConfigProvider.overrideWithValue(questsAppConfig),
-      ztPreferencesStoreProvider.overrideWithValue(InMemoryPreferencesStore()),
-      healthSourceProvider.overrideWithValue(const NoHealthSource()),
+      ztPreferencesStoreProvider.overrideWithValue(
+        prefs ?? InMemoryPreferencesStore(),
+      ),
+      healthSourceProvider.overrideWithValue(health),
       dailyReminderProvider.overrideWithValue(NoopDailyReminder()),
       todayProvider.overrideWith(() => _FixedDay(day)),
       questsRepositoryProvider.overrideWith(
