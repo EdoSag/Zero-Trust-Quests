@@ -4,16 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app/quests_settings.dart';
 import '../data/quests_store.dart';
 import '../engine/engine.dart';
+import '../engine/events.dart';
 import '../health/health_source.dart';
 import '../l10n/l10n.dart';
 import '../model/goal.dart';
 import '../model/quest.dart';
 import 'common.dart';
 import 'epics_tab.dart';
+import 'event_card.dart';
 import 'goal_wizard.dart';
 import 'hero_card.dart';
 import 'labels.dart';
 import 'quest_card.dart';
+import '../party/party_pages.dart';
+import '../tasks/tasks_today.dart';
 
 /// Today's daily quests, one per goal, under the hero card. Epic quests a
 /// goal offers show here too.
@@ -78,6 +82,9 @@ class TodayTab extends ConsumerWidget {
         HeroCard(onTap: onOpenHero),
         const SizedBox(height: 8),
         const WorkoutAccessCard(),
+        const TodayPartyCards(),
+        for (final run in SeasonalEvents.offers(quests, day))
+          EventOfferCard(key: ValueKey(run.questId), run: run),
         for (final (g, offer) in offers) EpicOfferCard(goal: g, offer: offer),
         if (cards.isEmpty && skipped.isEmpty)
           const Padding(
@@ -93,6 +100,7 @@ class TodayTab extends ConsumerWidget {
               subtitle: Text(l.skippedToday),
             ),
           ),
+        const TasksTodayCard(),
       ],
     );
   }

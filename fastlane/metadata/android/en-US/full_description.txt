@@ -8,6 +8,9 @@ WHAT IT DOES
 • Epic quests: bigger, one-time challenges with a deadline, like a long run or a 7-day streak. Or write your own.
 • XP, levels and titles, gold, and a daily streak with streak freezes.
 • A shop for emblems and colours, some unlocked free as you level up.
+• Party quests: team up with friends against a boss. Everyone's finished quests hit it, and everyone who helped shares the reward.
+• Tasks you tick off in ZT Tasks can earn XP and gold too.
+• An achievements gallery, and seasonal events with emblems you can't get any other way.
 • Log progress with a tap, or fill steps, distance, workouts, sleep and water from Health Connect (ZT Fitness, your watch or other apps).
 • A daily reminder that never shows your goals on the lock screen.
 

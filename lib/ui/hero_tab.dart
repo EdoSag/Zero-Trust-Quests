@@ -5,6 +5,7 @@ import '../data/quests_store.dart';
 import '../engine/hero.dart';
 import '../l10n/l10n.dart';
 import '../model/quest.dart';
+import 'achievements_page.dart';
 import 'common.dart';
 import 'hero_card.dart';
 import 'labels.dart';
@@ -35,10 +36,15 @@ class HeroTab extends ConsumerWidget {
                 _Stat(l.statEpics, '${stats.epicsDone}'),
                 _Stat(l.statBestStreak, '${stats.bestStreak}'),
                 _Stat(l.statTotalXp, '${stats.xp}'),
+                if (stats.tasksDone > 0)
+                  _Stat(l.statTasks, '${stats.tasksDone}'),
+                if (stats.partyWins > 0)
+                  _Stat(l.statBosses, '${stats.partyWins}'),
               ],
             ),
           ),
         ),
+        const AchievementsTile(),
         ListTile(
           leading: const Icon(Icons.badge_outlined),
           title: Text(l.heroName),
@@ -229,6 +235,8 @@ class _ItemGrid extends StatelessWidget {
               label = l.wearing;
             } else if (open) {
               label = l.wear;
+            } else if (item.event != null) {
+              label = l.eventOnly;
             } else if (item.price > 0) {
               label = l.goldAmount(item.price);
             } else {
@@ -244,6 +252,8 @@ class _ItemGrid extends StatelessWidget {
                       ? null
                       : open
                       ? () => onWear(item.id)
+                      : item.event != null
+                      ? () => showSnack(context, l.eventEmblemLocked)
                       : item.price > 0
                       ? () => onBuy(item)
                       : null,
@@ -264,7 +274,9 @@ class _ItemGrid extends StatelessWidget {
                           children: [
                             if (!open)
                               Icon(
-                                item.price > 0
+                                item.event != null
+                                    ? Icons.celebration
+                                    : item.price > 0
                                     ? Icons.paid
                                     : Icons.lock_outline,
                                 size: 12,

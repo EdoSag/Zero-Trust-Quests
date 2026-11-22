@@ -50,6 +50,13 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="zerotrust.bz" android:pathPrefix="/auth/quests/"/>
             </intent-filter>
+            <!-- Party invites: https://zerotrust.bz/join/quests#zt1.quests.… (see EmailLinks). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="zerotrust.bz" android:pathPrefix="/join/quests"/>
+            </intent-filter>
             <!-- Health Connect's "why does this app want access" link. -->
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />

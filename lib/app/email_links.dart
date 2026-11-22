@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
-import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
+import 'package:flutter/foundation.dart' show ValueNotifier, debugPrint, kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Where the links in account emails lead. Both addresses must be allowed in
@@ -27,6 +27,17 @@ abstract final class EmailLinks {
   static StreamSubscription<Uri>? _links;
   static final _used = <String>{};
 
+  /// Party invites (https://zerotrust.bz/join/quests#zt1.quests.…) the app
+  /// was opened with. They wait here while signed out or locked; the
+  /// unlocked app takes them ([takeInvites]) and opens the join page.
+  static final invites = ValueNotifier<List<String>>(const []);
+
+  static List<String> takeInvites() {
+    final list = invites.value;
+    if (list.isNotEmpty) invites.value = const [];
+    return list;
+  }
+
   /// Starts handling reset links. Call once, after Supabase.initialize.
   /// (Links that carry `?code=` instead, from the default email template,
   /// are handled by supabase_flutter itself.)
@@ -43,6 +54,12 @@ abstract final class EmailLinks {
   }
 
   static Future<void> _handle(Uri uri) async {
+    if (uri.host == 'zerotrust.bz' && uri.path.startsWith('/join/quests')) {
+      final link = uri.toString();
+      // The same link can arrive twice (initial link and stream).
+      if (_used.add(link)) invites.value = [...invites.value, link];
+      return;
+    }
     if (uri.host != 'zerotrust.bz' || !uri.path.startsWith('/auth/')) return;
     // The token is after the # so it never reaches a web server.
     final params = Uri.splitQueryString(uri.fragment);
@@ -52,8 +69,10 @@ abstract final class EmailLinks {
     if (!_used.add(tokenHash)) return;
     try {
       // Signs in for recovery and raises AuthChangeEvent.passwordRecovery.
-      await Supabase.instance.client.auth
-          .verifyOTP(type: OtpType.recovery, tokenHash: tokenHash);
+      await Supabase.instance.client.auth.verifyOTP(
+        type: OtpType.recovery,
+        tokenHash: tokenHash,
+      );
     } on Object catch (e) {
       // Expired or already used: the sign-in screen stays, and Forgot
       // password sends a new link.

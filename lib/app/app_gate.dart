@@ -13,7 +13,12 @@ import '../health/health_sync.dart';
 import '../l10n/l10n.dart';
 import '../model/days.dart';
 import '../model/quest.dart';
+import '../model/reward.dart';
 import '../notify/daily_reminder.dart';
+import '../party/party_data.dart';
+import '../party/party_pages.dart';
+import '../tasks/linked_tasks.dart';
+import '../tasks/tasks_bridge.dart';
 import '../ui/home_page.dart';
 import '../ui/quest_actions.dart';
 import '../widgets/quests_widgets.dart';
@@ -71,7 +76,16 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
     }
   }
 
-  void _onUnlocked(UnlockResult result) {
+  Future<void> _onUnlocked(UnlockResult result) async {
+    // Tasks ticked off in ZT Tasks earn XP here, so Quests also derives ZT
+    // Tasks' key while it holds the account key (read only, like ZT
+    // Calendar).
+    try {
+      await ref.read(tasksKeyProvider.notifier).deriveFrom(result.dek);
+    } on Object {
+      // Quests works without it; only the ZT Tasks link waits.
+    }
+    if (!mounted) return;
     if (result.newRecoveryKey != null) {
       setState(() {
         _signingIn = false;
@@ -86,7 +100,10 @@ class _AppGateState extends ConsumerState<AppGate> with WidgetsBindingObserver {
   }
 
   void _forgotPassword() => Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (_) => ZtForgotPasswordScreen(redirectTo: EmailLinks.passwordReset)),
+    MaterialPageRoute<void>(
+      builder: (_) =>
+          ZtForgotPasswordScreen(redirectTo: EmailLinks.passwordReset),
+    ),
   );
 
   @override
@@ -175,6 +192,8 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
   Timer? _widgetsSoon;
   String? _widgetsShown;
   bool _applyingTicks = false;
+  Timer? _tasksSoon;
+  bool _rewardingTasks = false;
 
   @override
   void initState() {
@@ -184,10 +203,12 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
       const Duration(minutes: 15),
       (_) => _fillHealth(),
     );
+    EmailLinks.invites.addListener(_takeInvites);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _plan();
       _fillHealth();
       _syncWidgets();
+      _takeInvites();
     });
   }
 
@@ -197,7 +218,59 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
     _planSoon?.cancel();
     _healthTimer?.cancel();
     _widgetsSoon?.cancel();
+    _tasksSoon?.cancel();
+    EmailLinks.invites.removeListener(_takeInvites);
     super.dispose();
+  }
+
+  /// Party invite links the app was opened with (also while it was locked).
+  Future<void> _takeInvites() async {
+    if (!mounted) return;
+    for (final link in EmailLinks.takeInvites()) {
+      if (!mounted) return;
+      await joinParty(context, initialLink: link);
+    }
+  }
+
+  /// Turns tasks ticked off in the linked ZT Tasks lists into rewards.
+  /// Debounced, so a burst of changes writes once.
+  void _rewardTasks() {
+    _tasksSoon?.cancel();
+    _tasksSoon = Timer(const Duration(milliseconds: 500), () async {
+      if (!mounted || _rewardingTasks) return;
+      final link = ref.read(tasksLinkProvider).value;
+      final snapshot = ref.read(tasksSnapshotProvider).value;
+      final rewards = ref.read(rewardsProvider).value;
+      if (link == null || !link.isOn || snapshot == null || rewards == null) {
+        return;
+      }
+      _rewardingTasks = true;
+      try {
+        final seenStore = ref.read(tasksSeenStoreProvider);
+        final plan = TaskRewards.plan(
+          tasks: snapshot.tasks,
+          link: link,
+          existing: {
+            for (final r in rewards)
+              if (r.source == RewardSource.task) r.id,
+          },
+          seen: await seenStore.read(),
+          today: ref.read(todayProvider),
+        );
+        final repo = ref.read(questsRepositoryProvider);
+        for (final r in plan.save) {
+          await repo.saveReward(r);
+        }
+        for (final id in plan.delete) {
+          await repo.deleteReward(id);
+        }
+        await seenStore.write(plan.seen);
+      } on Object {
+        // Tried again on the next change.
+      } finally {
+        _rewardingTasks = false;
+      }
+    });
   }
 
   @override
@@ -337,7 +410,12 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
     final content = QuestsWidgetContent.build(
       goals: goals,
       quests: quests,
-      stats: HeroStats.compute(quests, purchases, day),
+      stats: HeroStats.compute(
+        quests,
+        purchases,
+        day,
+        rewards: ref.read(rewardsProvider).value ?? const <Reward>[],
+      ),
       day: day,
       details: ref.read(questsSettingsProvider).widgetDetails,
       l: l,
@@ -355,6 +433,14 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
   @override
   Widget build(BuildContext context) {
     ref.watch(ztSyncControllerProvider);
+    // Shares this account's damage with its parties.
+    ref.watch(partyPublisherProvider);
+    // Reads ZT Tasks only once a list is linked.
+    if (ref.watch(tasksLinkProvider).value?.isOn == true) {
+      ref.listen(tasksSnapshotProvider, (_, _) => _rewardTasks());
+      ref.listen(rewardsProvider, (_, _) => _rewardTasks());
+    }
+    ref.listen(tasksLinkProvider, (_, _) => _rewardTasks());
     ref.listen(goalsProvider, (_, _) {
       _plan();
       _syncWidgets();
@@ -365,6 +451,7 @@ class _QuestsHomeState extends ConsumerState<QuestsHome>
       _syncWidgets();
     });
     ref.listen(purchasesProvider, (_, _) => _syncWidgets());
+    ref.listen(rewardsProvider, (_, _) => _syncWidgets());
     ref.listen(todayProvider, (_, _) {
       _plan();
       _syncReminder();
