@@ -998,4 +998,14 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get widgetOpenApp => 'פתיחת ZT Quests';
+
+  @override
+  String get workoutAccessTitle => 'ספירת האימונים שלך';
+
+  @override
+  String get workoutAccessBody =>
+      'אימונים מ-ZT Fitness או מהשעון יכולים למלא משימות של אימון, ריצה, מתיחות והליכה. Health Connect משתף אותם רק אם ZT Quests רשאית לקרוא גם קלוריות שנשרפו. נקרא רק בטלפון הזה.';
+
+  @override
+  String get workoutAccessAllow => 'אישור';
 }

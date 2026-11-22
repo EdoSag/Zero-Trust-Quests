@@ -6,6 +6,10 @@ import 'health_source.dart';
 /// Fills quest steps from Health Connect. Never lowers what was logged by
 /// hand: a daily step takes the larger value; an epic keeps each day's
 /// value beside what was logged.
+///
+/// Workouts logged in ZT Fitness reach here through Health Connect: their
+/// minutes fill workout steps, runs fill run steps, yoga fills stretching
+/// and walks fill walking outside (see [workoutValues]).
 abstract final class HealthFill {
   /// Quests changed by [day]'s values, ready to save.
   static List<Quest> apply(List<Quest> quests, String day, HealthDay health) {
@@ -21,8 +25,17 @@ abstract final class HealthFill {
       final steps = [
         for (final s in q.steps)
           () {
-            final metric = activityById[s.activity]?.health;
-            final v = metric == null ? null : health[metric];
+            final activity = activityById[s.activity];
+            final metric = activity?.health;
+            var v = metric == null ? null : health[metric];
+            // A run logged without a distance finishes the day's run.
+            final finishedBy = activity?.finishedBy;
+            if (q.isDaily &&
+                finishedBy != null &&
+                (health[finishedBy] ?? 0) > 0 &&
+                (v ?? 0) < s.target) {
+              v = s.target;
+            }
             if (v == null) return s;
             if (q.isDaily) {
               if (v <= s.progress) return s;

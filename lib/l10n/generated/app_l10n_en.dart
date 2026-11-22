@@ -1001,4 +1001,14 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get widgetOpenApp => 'Open ZT Quests';
+
+  @override
+  String get workoutAccessTitle => 'Count your workouts';
+
+  @override
+  String get workoutAccessBody =>
+      'Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.';
+
+  @override
+  String get workoutAccessAllow => 'Allow';
 }
