@@ -1143,7 +1143,7 @@ class AppL10nHe extends AppL10n {
 
   @override
   String partyLevel(int n) {
-    return 'רמה $n';
+    return 'שלב $n';
   }
 
   @override
@@ -1309,7 +1309,7 @@ class AppL10nHe extends AppL10n {
 
   @override
   String achDoLevel(int n) {
-    return 'להגיע לרמה $n';
+    return 'להגיע לשלב $n';
   }
 
   @override
