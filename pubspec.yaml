@@ -1,7 +1,7 @@
 name: zerotrust_quests
 description: "Zero-Trust Quests: daily quests from your own goals, with XP, gold and levels. End-to-end encrypted."
 publish_to: none
-version: 0.4.0+5
+version: 0.4.1+6
 
 environment:
   sdk: ^3.9.0
@@ -26,7 +26,11 @@ dependencies:
     git:
       url: https://github.com/EdoSag/Zero-Trust-Core.git
       path: packages/zero_trust_core
-      ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
+      # The core commit this app used before, plus the import-freeze fix of
+      # Core PR #89 and #90. It lives on the Core branch
+      # backport/import-freeze-fix-on-core-cd50d2d: keep that branch until
+      # this pin moves to a core that has the fix.
+      ref: bb408cc33ae6d113a1ee3da751ae2a4cef6166b2
   # The shared sharing screens (people, invite by link or QR, join, compare
   # codes), the same in every Zero-Trust app. Same commit as the core pin.
   # Used by parties.
@@ -34,7 +38,7 @@ dependencies:
     git:
       url: https://github.com/EdoSag/Zero-Trust-Core.git
       path: packages/zt_sharing_ui
-      ref: cd50d2ddfeb18abb25687b9f956478d7ced83aae
+      ref: bb408cc33ae6d113a1ee3da751ae2a4cef6166b2
   flutter_riverpod: ^3.5.0
   supabase_flutter: ^2.9.0
   # Reset links from account emails (EmailLinks).
