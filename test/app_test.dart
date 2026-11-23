@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:zero_trust_core/zero_trust_core.dart';
+import 'package:zerotrust_quests/health/health_source.dart';
 import 'package:zerotrust_quests/engine/engine.dart';
 import 'package:zerotrust_quests/model/goal.dart';
 import 'package:zerotrust_quests/model/quest.dart';
@@ -30,6 +32,25 @@ const quest = Quest(
   xp: 35,
   gold: 8,
 );
+
+/// Health Connect turned on before workouts counted: calories burned (and
+/// so workouts) not allowed until asked again.
+class OldHealthAccess implements HealthSource {
+  bool workouts = false;
+  int asked = 0;
+  @override
+  Future<bool> available() async => true;
+  @override
+  Future<bool> requestAccess() async {
+    asked++;
+    return workouts = true;
+  }
+
+  @override
+  Future<bool> canReadWorkouts() async => workouts;
+  @override
+  Future<HealthDay> read(DateTime day) async => const HealthDay({});
+}
 
 void main() {
   testWidgets('first run: pick a goal, answer, and get a quest', (
@@ -173,5 +194,54 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('Not enough gold'), findsOneWidget);
     expect(repo.purchases, isEmpty);
+  });
+
+  testWidgets('asks once to read workouts, above the day\'s quest', (
+    tester,
+  ) async {
+    final prefs = InMemoryPreferencesStore();
+    await prefs.write('quests.useHealth', 'true');
+    final health = OldHealthAccess();
+    await tester.pumpWidget(
+      app(
+        const HomePage(),
+        goals: [fit],
+        quests: [quest],
+        health: health,
+        prefs: prefs,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final card = tester.getRect(find.text('Count your workouts'));
+    final hero = tester.getRect(find.text('Level 1 · Novice'));
+    final title = tester.getRect(find.text('20 push-ups'));
+    expect(card.top, greaterThan(hero.bottom));
+    expect(title.top, greaterThan(card.bottom));
+    final allow = tester.getRect(find.text('Allow'));
+    final notNow = tester.getRect(find.text('Not now'));
+    expect(allow.width, greaterThan(0));
+    expect(notNow.width, greaterThan(0));
+    expect((allow.center.dy - notNow.center.dy).abs(), lessThan(1));
+
+    await tester.tap(find.text('Allow'));
+    await tester.pumpAndSettle();
+    expect(health.asked, 1);
+    expect(find.text('Count your workouts'), findsNothing);
+  });
+
+  testWidgets('no workout card without Health Connect turned on', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      app(
+        const HomePage(),
+        goals: [fit],
+        quests: [quest],
+        health: OldHealthAccess(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Count your workouts'), findsNothing);
   });
 }

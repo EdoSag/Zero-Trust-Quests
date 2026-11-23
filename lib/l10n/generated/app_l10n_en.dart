@@ -908,7 +908,7 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get useHealthHint =>
-      'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.';
+      'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.';
 
   @override
   String get healthUnavailable =>
@@ -1001,4 +1001,389 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get widgetOpenApp => 'Open ZT Quests';
+
+  @override
+  String get workoutAccessTitle => 'Count your workouts';
+
+  @override
+  String get workoutAccessBody =>
+      'Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.';
+
+  @override
+  String get workoutAccessAllow => 'Allow';
+
+  @override
+  String get runLogged => 'Run logged';
+
+  @override
+  String get tabParty => 'Party';
+
+  @override
+  String get partyIntro =>
+      'Team up with friends against a boss. Every daily quest anyone in the party finishes hits it. Beat it before time runs out and everyone who helped gets XP and gold.';
+
+  @override
+  String get partyE2e =>
+      'End-to-end encrypted. The party sees your name, level, hero look and the damage you did, nothing about your goals or quests.';
+
+  @override
+  String get startParty => 'Start a party';
+
+  @override
+  String get joinParty => 'Join with an invite';
+
+  @override
+  String get partyNameLabel => 'Party name';
+
+  @override
+  String get partyNameHint => 'The Night Owls';
+
+  @override
+  String get partyDifficulty => 'Boss strength';
+
+  @override
+  String get diffEasy => 'Easy';
+
+  @override
+  String get diffNormal => 'Normal';
+
+  @override
+  String get diffHard => 'Hard';
+
+  @override
+  String diffHint(int hp, int hit) {
+    return 'Hit points for each member each day: $hp. A daily quest done hits for $hit.';
+  }
+
+  @override
+  String get huntLength => 'Hunt length';
+
+  @override
+  String get createParty => 'Create party';
+
+  @override
+  String get partyWaiting => 'Waiting for an owner to let you in';
+
+  @override
+  String get bossSlime => 'Slime';
+
+  @override
+  String get bossGoblin => 'Goblin';
+
+  @override
+  String get bossTroll => 'Troll';
+
+  @override
+  String get bossGolem => 'Golem';
+
+  @override
+  String get bossWyvern => 'Wyvern';
+
+  @override
+  String get bossKraken => 'Kraken';
+
+  @override
+  String get bossLich => 'Lich';
+
+  @override
+  String get bossDragon => 'Dragon';
+
+  @override
+  String hpLeft(int left, int total) {
+    return '$left of $total HP left';
+  }
+
+  @override
+  String get huntLastDay => 'Last day';
+
+  @override
+  String huntDaysLeft(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days left',
+      one: '1 day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bossBeaten(int xp, int gold) {
+    return 'Beaten! Everyone who helped gets $xp XP and $gold gold.';
+  }
+
+  @override
+  String get bossEscaped => 'The boss got away. Start a new hunt to try again.';
+
+  @override
+  String get bossEscapedMember =>
+      'The boss got away. An owner can start a new hunt.';
+
+  @override
+  String get noHunt => 'No hunt yet.';
+
+  @override
+  String get newHunt => 'New hunt';
+
+  @override
+  String get newHuntBody =>
+      'Pick how long the party has to beat the next boss.';
+
+  @override
+  String get partyPeople => 'People';
+
+  @override
+  String partyDamage(int n) {
+    return '$n damage';
+  }
+
+  @override
+  String partyHits(int dailies, int tasks) {
+    return '$dailies quests · $tasks tasks';
+  }
+
+  @override
+  String get partyNoHitsYet => 'Nothing yet';
+
+  @override
+  String partyLevel(int n) {
+    return 'Level $n';
+  }
+
+  @override
+  String get partyNeedsInternet =>
+      'Couldn\'t reach the server. Parties need an internet connection.';
+
+  @override
+  String get renameParty => 'Rename party';
+
+  @override
+  String partyRewardNote(int xp, int gold) {
+    return 'Beat it and everyone who hit it gets $xp XP and $gold gold.';
+  }
+
+  @override
+  String partyCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksLinkTitle => 'ZT Tasks';
+
+  @override
+  String get tasksLinkOff => 'Earn XP for the tasks you tick off';
+
+  @override
+  String tasksLinkOn(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n lists count',
+      one: '1 list counts',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksLinkBody(int low, int high, int cap) {
+    return 'Choose which ZT Tasks lists count. Each task you tick off in them from now on earns $low to $high XP by its priority, and gold, up to $cap tasks a day. Quests only reads your tasks; it never changes them.';
+  }
+
+  @override
+  String get tasksDefaultList => 'My Tasks';
+
+  @override
+  String get tasksLoading => 'Reading your lists from ZT Tasks…';
+
+  @override
+  String get tasksNone =>
+      'No ZT Tasks lists on this account yet. Make one in ZT Tasks first.';
+
+  @override
+  String get tasksOffline =>
+      'Couldn\'t reach the server. These lists are from the last time.';
+
+  @override
+  String get tasksSharedNote => 'Shared lists don\'t count yet.';
+
+  @override
+  String tasksToday(int count, int xp) {
+    return 'ZT Tasks today: $count done, $xp XP';
+  }
+
+  @override
+  String get achievements => 'Achievements';
+
+  @override
+  String achievementsCount(int done, int total) {
+    return '$done of $total unlocked';
+  }
+
+  @override
+  String get achFirstQuest => 'First steps';
+
+  @override
+  String get achDailies10 => 'Getting going';
+
+  @override
+  String get achDailies50 => 'Regular';
+
+  @override
+  String get achDailies100 => 'Centurion';
+
+  @override
+  String get achDailies365 => 'A year of quests';
+
+  @override
+  String get achStreak3 => 'Warming up';
+
+  @override
+  String get achStreak7 => 'On fire';
+
+  @override
+  String get achStreak30 => 'Unstoppable';
+
+  @override
+  String get achStreak100 => 'Legendary streak';
+
+  @override
+  String get achFirstEpic => 'Epic start';
+
+  @override
+  String get achEpics10 => 'Saga';
+
+  @override
+  String get achLevel5 => 'Adventurer';
+
+  @override
+  String get achLevel10 => 'Pathfinder';
+
+  @override
+  String get achLevel25 => 'Elite';
+
+  @override
+  String get achTasks10 => 'Task tamer';
+
+  @override
+  String get achTasks100 => 'Task master';
+
+  @override
+  String get achFirstBoss => 'Boss slayer';
+
+  @override
+  String get achBosses10 => 'Monster hunter';
+
+  @override
+  String get achFirstEvent => 'In season';
+
+  @override
+  String get achFirstPurchase => 'First purchase';
+
+  @override
+  String achDoDailies(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Finish $n daily quests',
+      one: 'Finish a daily quest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String achDoStreak(int n) {
+    return 'Reach a $n-day streak';
+  }
+
+  @override
+  String achDoEpics(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Finish $n epic quests',
+      one: 'Finish an epic quest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String achDoLevel(int n) {
+    return 'Reach level $n';
+  }
+
+  @override
+  String achDoTasks(int n) {
+    return 'Tick off $n tasks in ZT Tasks';
+  }
+
+  @override
+  String achDoBosses(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Beat $n party bosses',
+      one: 'Beat a party boss',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get achDoEvent => 'Finish a seasonal event';
+
+  @override
+  String get achDoPurchase => 'Buy something in the shop';
+
+  @override
+  String get eventNewYear => 'Fresh start';
+
+  @override
+  String get eventHanukkah => 'Hanukkah lights';
+
+  @override
+  String get eventSummerSteps => 'Summer step challenge';
+
+  @override
+  String get eventNewYearBody =>
+      'Finish a daily quest on 10 of the year\'s first 14 days.';
+
+  @override
+  String get eventHanukkahBody =>
+      'Finish a daily quest on each of the eight days of Hanukkah.';
+
+  @override
+  String get eventSummerStepsBody =>
+      'Walk 300,000 steps in July and August. Steps come from your daily quests and Health Connect.';
+
+  @override
+  String eventOffer(String day) {
+    return 'Seasonal event · until $day';
+  }
+
+  @override
+  String get eventEmblemNote =>
+      'Finish it for an emblem you can\'t get any other way.';
+
+  @override
+  String get eventJoin => 'Join';
+
+  @override
+  String get eventJoined => 'Joined. Follow it on the Epics tab.';
+
+  @override
+  String get eventOnly => 'Event';
+
+  @override
+  String get eventEmblemLocked => 'Won by finishing a seasonal event.';
+
+  @override
+  String get statTasks => 'Tasks';
+
+  @override
+  String get statBosses => 'Bosses';
 }

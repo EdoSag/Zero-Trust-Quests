@@ -19,8 +19,22 @@ enum Unit {
 /// Health Connect values that can fill a step on their own.
 enum HealthMetric {
   steps,
-  distanceKm,
+
+  /// Kilometres run in running workouts (walks and rides don't count).
+  runKm,
+
+  /// Running workouts saved without a distance (logged by hand in ZT
+  /// Fitness): each one finishes the day's run.
+  runsWithoutDistance,
+
+  /// Minutes of any workout.
   workoutMinutes,
+
+  /// Minutes of yoga, pilates and stretching workouts.
+  stretchMinutes,
+
+  /// Minutes of walking and hiking workouts.
+  walkMinutes,
   sleepHours,
   waterGlasses,
 }
@@ -37,6 +51,7 @@ class Activity {
     this.min = 1,
     this.max = 100000,
     this.health,
+    this.finishedBy,
   });
 
   final String id;
@@ -49,6 +64,10 @@ class Activity {
   final double min;
   final double max;
   final HealthMetric? health;
+
+  /// A Health Connect count that finishes a daily step on its own (a run
+  /// logged without a distance still counts as the day's run).
+  final HealthMetric? finishedBy;
 
   bool get isCheck => unit == Unit.check;
 }
@@ -77,7 +96,8 @@ const activities = <Activity>[
     round: 0.5,
     min: 0.5,
     max: 42,
-    health: HealthMetric.distanceKm,
+    health: HealthMetric.runKm,
+    finishedBy: HealthMetric.runsWithoutDistance,
   ),
   Activity(
     'walkSteps',
@@ -99,7 +119,16 @@ const activities = <Activity>[
     max: 120,
     health: HealthMetric.workoutMinutes,
   ),
-  Activity('stretch', _f, Unit.minutes, 10, round: 5, min: 5, max: 45),
+  Activity(
+    'stretch',
+    _f,
+    Unit.minutes,
+    10,
+    round: 5,
+    min: 5,
+    max: 45,
+    health: HealthMetric.stretchMinutes,
+  ),
   // Productivity
   Activity('deepWork', _p, Unit.minutes, 45, round: 5, min: 15, max: 240),
   Activity('pomodoros', _p, Unit.count, 3, min: 1, max: 12),
@@ -148,7 +177,16 @@ const activities = <Activity>[
   // Mindfulness
   Activity('meditate', _m, Unit.minutes, 8, round: 1, min: 3, max: 60),
   Activity('gratitude', _m, Unit.count, 3, min: 1, max: 10),
-  Activity('walkOutside', _m, Unit.minutes, 20, round: 5, min: 10, max: 90),
+  Activity(
+    'walkOutside',
+    _m,
+    Unit.minutes,
+    20,
+    round: 5,
+    min: 10,
+    max: 90,
+    health: HealthMetric.walkMinutes,
+  ),
   Activity('journal', _m, Unit.check, 1),
   Activity('breathing', _m, Unit.minutes, 3, min: 2, max: 20),
 ];

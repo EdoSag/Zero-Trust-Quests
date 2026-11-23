@@ -7,10 +7,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- Health Connect, read only and only after it is turned on in
          Settings: fills quest steps from steps, distance, workouts, sleep
-         and water (ZT Fitness, a watch or other apps). -->
+         and water (ZT Fitness, a watch or other apps). Calories burned:
+         Health Connect hands over workouts only with it (the health
+         plugin adds up each workout's calories). -->
     <uses-permission android:name="android.permission.health.READ_STEPS"/>
     <uses-permission android:name="android.permission.health.READ_DISTANCE"/>
     <uses-permission android:name="android.permission.health.READ_EXERCISE"/>
+    <uses-permission android:name="android.permission.health.READ_TOTAL_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_SLEEP"/>
     <uses-permission android:name="android.permission.health.READ_HYDRATION"/>
 
@@ -46,6 +49,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="zerotrust.bz" android:pathPrefix="/auth/quests/"/>
+            </intent-filter>
+            <!-- Party invites: https://zerotrust.bz/join/quests#zt1.quests.… (see EmailLinks). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="zerotrust.bz" android:pathPrefix="/join/quests"/>
             </intent-filter>
             <!-- Health Connect's "why does this app want access" link. -->
             <intent-filter>

@@ -7,6 +7,7 @@ import '../app/quests_settings.dart';
 import '../health/health_source.dart';
 import '../l10n/l10n.dart';
 import '../notify/daily_reminder.dart';
+import '../tasks/tasks_link_page.dart';
 import 'common.dart';
 
 /// The shared Zero-Trust settings screen, with Quests' own rows.
@@ -86,6 +87,7 @@ class QuestsSettingsPage extends ConsumerWidget {
                 .setReminder(picked.hour * 60 + picked.minute);
           },
         ),
+        const TasksLinkTile(),
         SwitchListTile(
           secondary: const Icon(Icons.widgets_outlined),
           title: Text(l.widgetDetails),

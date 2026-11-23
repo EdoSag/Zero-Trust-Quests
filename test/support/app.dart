@@ -9,7 +9,10 @@ import 'package:zerotrust_quests/health/health_source.dart';
 import 'package:zerotrust_quests/l10n/l10n.dart';
 import 'package:zerotrust_quests/model/goal.dart';
 import 'package:zerotrust_quests/model/quest.dart';
+import 'package:zerotrust_quests/model/reward.dart';
 import 'package:zerotrust_quests/notify/daily_reminder.dart';
+import 'package:zerotrust_quests/party/party_data.dart';
+import 'package:zerotrust_quests/tasks/linked_tasks.dart';
 
 /// Keeps everything in memory, in place of the encrypted store.
 class MemoryRepository extends QuestsRepository {
@@ -17,6 +20,8 @@ class MemoryRepository extends QuestsRepository {
     super.ref, {
     List<Goal> goals = const [],
     List<Quest> quests = const [],
+    List<Reward> rewards = const [],
+    this.tasksLink = const TasksLink(),
   }) {
     for (final g in goals) {
       _goals[g.id] = g;
@@ -24,7 +29,14 @@ class MemoryRepository extends QuestsRepository {
     for (final q in quests) {
       _quests[q.id] = q;
     }
+    for (final r in rewards) {
+      _rewards[r.id] = r;
+    }
   }
+
+  final _rewards = <String, Reward>{};
+  TasksLink tasksLink;
+  List<Reward> get rewards => _rewards.values.toList();
 
   final _goals = <String, Goal>{};
   final _quests = <String, Quest>{};
@@ -44,6 +56,30 @@ class MemoryRepository extends QuestsRepository {
   Stream<List<Quest>> watchQuests() => _watch(() => quests);
   Stream<List<Purchase>> watchPurchases() => _watch(() => [...purchases]);
   Stream<HeroLook> watchHero() => _watch(() => [hero]).map((l) => l.first);
+  Stream<List<Reward>> watchRewards() => _watch(() => rewards);
+  Stream<TasksLink> watchTasksLink() =>
+      _watch(() => [tasksLink]).map((l) => l.first);
+
+  @override
+  Future<List<Reward>> allRewards() async => rewards;
+
+  @override
+  Future<void> saveReward(Reward r) async {
+    _rewards[r.id] = r;
+    _changes.add(null);
+  }
+
+  @override
+  Future<void> deleteReward(String id) async {
+    _rewards.remove(id);
+    _changes.add(null);
+  }
+
+  @override
+  Future<void> saveTasksLink(TasksLink link) async {
+    tasksLink = link;
+    _changes.add(null);
+  }
 
   @override
   Future<List<Goal>> allGoals() async => goals;
@@ -94,18 +130,43 @@ Widget app(
   Widget home, {
   List<Goal> goals = const [],
   List<Quest> quests = const [],
+  List<Reward> rewards = const [],
+  TasksLink tasksLink = const TasksLink(),
   Locale locale = ZtLanguages.english,
   String day = '2026-11-17',
+  HealthSource health = const NoHealthSource(),
+  PreferencesStore? prefs,
+  List overrides = const [],
 }) {
   return ProviderScope(
     overrides: [
+      ...overrides.cast(),
       ztAppConfigProvider.overrideWithValue(questsAppConfig),
-      ztPreferencesStoreProvider.overrideWithValue(InMemoryPreferencesStore()),
-      healthSourceProvider.overrideWithValue(const NoHealthSource()),
+      ztPreferencesStoreProvider.overrideWithValue(
+        prefs ?? InMemoryPreferencesStore(),
+      ),
+      healthSourceProvider.overrideWithValue(health),
       dailyReminderProvider.overrideWithValue(NoopDailyReminder()),
       todayProvider.overrideWith(() => _FixedDay(day)),
       questsRepositoryProvider.overrideWith(
-        (ref) => repo = MemoryRepository(ref, goals: goals, quests: quests),
+        (ref) => repo = MemoryRepository(
+          ref,
+          goals: goals,
+          quests: quests,
+          rewards: rewards,
+          tasksLink: tasksLink,
+        ),
+      ),
+      rewardsProvider.overrideWith(
+        (ref) => (ref.watch(questsRepositoryProvider) as MemoryRepository)
+            .watchRewards(),
+      ),
+      tasksLinkProvider.overrideWith(
+        (ref) => (ref.watch(questsRepositoryProvider) as MemoryRepository)
+            .watchTasksLink(),
+      ),
+      partiesProvider.overrideWith(
+        (ref) async => const PartiesState(ready: true, loading: false),
       ),
       goalsProvider.overrideWith(
         (ref) => (ref.watch(questsRepositoryProvider) as MemoryRepository)

@@ -1636,7 +1636,7 @@ abstract class AppL10n {
   /// No description provided for @useHealthHint.
   ///
   /// In en, this message translates to:
-  /// **'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.'**
+  /// **'Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.'**
   String get useHealthHint;
 
   /// No description provided for @healthUnavailable.
@@ -1794,6 +1794,600 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Open ZT Quests'**
   String get widgetOpenApp;
+
+  /// No description provided for @workoutAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Count your workouts'**
+  String get workoutAccessTitle;
+
+  /// No description provided for @workoutAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.'**
+  String get workoutAccessBody;
+
+  /// No description provided for @workoutAccessAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get workoutAccessAllow;
+
+  /// No description provided for @runLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Run logged'**
+  String get runLogged;
+
+  /// No description provided for @tabParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Party'**
+  String get tabParty;
+
+  /// No description provided for @partyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Team up with friends against a boss. Every daily quest anyone in the party finishes hits it. Beat it before time runs out and everyone who helped gets XP and gold.'**
+  String get partyIntro;
+
+  /// No description provided for @partyE2e.
+  ///
+  /// In en, this message translates to:
+  /// **'End-to-end encrypted. The party sees your name, level, hero look and the damage you did, nothing about your goals or quests.'**
+  String get partyE2e;
+
+  /// No description provided for @startParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a party'**
+  String get startParty;
+
+  /// No description provided for @joinParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Join with an invite'**
+  String get joinParty;
+
+  /// No description provided for @partyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Party name'**
+  String get partyNameLabel;
+
+  /// No description provided for @partyNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The Night Owls'**
+  String get partyNameHint;
+
+  /// No description provided for @partyDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Boss strength'**
+  String get partyDifficulty;
+
+  /// No description provided for @diffEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get diffEasy;
+
+  /// No description provided for @diffNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get diffNormal;
+
+  /// No description provided for @diffHard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get diffHard;
+
+  /// No description provided for @diffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit points for each member each day: {hp}. A daily quest done hits for {hit}.'**
+  String diffHint(int hp, int hit);
+
+  /// No description provided for @huntLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Hunt length'**
+  String get huntLength;
+
+  /// No description provided for @createParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Create party'**
+  String get createParty;
+
+  /// No description provided for @partyWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for an owner to let you in'**
+  String get partyWaiting;
+
+  /// No description provided for @bossSlime.
+  ///
+  /// In en, this message translates to:
+  /// **'Slime'**
+  String get bossSlime;
+
+  /// No description provided for @bossGoblin.
+  ///
+  /// In en, this message translates to:
+  /// **'Goblin'**
+  String get bossGoblin;
+
+  /// No description provided for @bossTroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Troll'**
+  String get bossTroll;
+
+  /// No description provided for @bossGolem.
+  ///
+  /// In en, this message translates to:
+  /// **'Golem'**
+  String get bossGolem;
+
+  /// No description provided for @bossWyvern.
+  ///
+  /// In en, this message translates to:
+  /// **'Wyvern'**
+  String get bossWyvern;
+
+  /// No description provided for @bossKraken.
+  ///
+  /// In en, this message translates to:
+  /// **'Kraken'**
+  String get bossKraken;
+
+  /// No description provided for @bossLich.
+  ///
+  /// In en, this message translates to:
+  /// **'Lich'**
+  String get bossLich;
+
+  /// No description provided for @bossDragon.
+  ///
+  /// In en, this message translates to:
+  /// **'Dragon'**
+  String get bossDragon;
+
+  /// No description provided for @hpLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{left} of {total} HP left'**
+  String hpLeft(int left, int total);
+
+  /// No description provided for @huntLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day'**
+  String get huntLastDay;
+
+  /// No description provided for @huntDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day left} other{{n} days left}}'**
+  String huntDaysLeft(int n);
+
+  /// No description provided for @bossBeaten.
+  ///
+  /// In en, this message translates to:
+  /// **'Beaten! Everyone who helped gets {xp} XP and {gold} gold.'**
+  String bossBeaten(int xp, int gold);
+
+  /// No description provided for @bossEscaped.
+  ///
+  /// In en, this message translates to:
+  /// **'The boss got away. Start a new hunt to try again.'**
+  String get bossEscaped;
+
+  /// No description provided for @bossEscapedMember.
+  ///
+  /// In en, this message translates to:
+  /// **'The boss got away. An owner can start a new hunt.'**
+  String get bossEscapedMember;
+
+  /// No description provided for @noHunt.
+  ///
+  /// In en, this message translates to:
+  /// **'No hunt yet.'**
+  String get noHunt;
+
+  /// No description provided for @newHunt.
+  ///
+  /// In en, this message translates to:
+  /// **'New hunt'**
+  String get newHunt;
+
+  /// No description provided for @newHuntBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick how long the party has to beat the next boss.'**
+  String get newHuntBody;
+
+  /// No description provided for @partyPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get partyPeople;
+
+  /// No description provided for @partyDamage.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} damage'**
+  String partyDamage(int n);
+
+  /// No description provided for @partyHits.
+  ///
+  /// In en, this message translates to:
+  /// **'{dailies} quests · {tasks} tasks'**
+  String partyHits(int dailies, int tasks);
+
+  /// No description provided for @partyNoHitsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get partyNoHitsYet;
+
+  /// No description provided for @partyLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {n}'**
+  String partyLevel(int n);
+
+  /// No description provided for @partyNeedsInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the server. Parties need an internet connection.'**
+  String get partyNeedsInternet;
+
+  /// No description provided for @renameParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename party'**
+  String get renameParty;
+
+  /// No description provided for @partyRewardNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Beat it and everyone who hit it gets {xp} XP and {gold} gold.'**
+  String partyRewardNote(int xp, int gold);
+
+  /// No description provided for @partyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 member} other{{n} members}}'**
+  String partyCount(int n);
+
+  /// No description provided for @tasksLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ZT Tasks'**
+  String get tasksLinkTitle;
+
+  /// No description provided for @tasksLinkOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn XP for the tasks you tick off'**
+  String get tasksLinkOff;
+
+  /// No description provided for @tasksLinkOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 list counts} other{{n} lists count}}'**
+  String tasksLinkOn(int n);
+
+  /// No description provided for @tasksLinkBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which ZT Tasks lists count. Each task you tick off in them from now on earns {low} to {high} XP by its priority, and gold, up to {cap} tasks a day. Quests only reads your tasks; it never changes them.'**
+  String tasksLinkBody(int low, int high, int cap);
+
+  /// No description provided for @tasksDefaultList.
+  ///
+  /// In en, this message translates to:
+  /// **'My Tasks'**
+  String get tasksDefaultList;
+
+  /// No description provided for @tasksLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading your lists from ZT Tasks…'**
+  String get tasksLoading;
+
+  /// No description provided for @tasksNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No ZT Tasks lists on this account yet. Make one in ZT Tasks first.'**
+  String get tasksNone;
+
+  /// No description provided for @tasksOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the server. These lists are from the last time.'**
+  String get tasksOffline;
+
+  /// No description provided for @tasksSharedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared lists don\'t count yet.'**
+  String get tasksSharedNote;
+
+  /// No description provided for @tasksToday.
+  ///
+  /// In en, this message translates to:
+  /// **'ZT Tasks today: {count} done, {xp} XP'**
+  String tasksToday(int count, int xp);
+
+  /// No description provided for @achievements.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get achievements;
+
+  /// No description provided for @achievementsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} unlocked'**
+  String achievementsCount(int done, int total);
+
+  /// No description provided for @achFirstQuest.
+  ///
+  /// In en, this message translates to:
+  /// **'First steps'**
+  String get achFirstQuest;
+
+  /// No description provided for @achDailies10.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting going'**
+  String get achDailies10;
+
+  /// No description provided for @achDailies50.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get achDailies50;
+
+  /// No description provided for @achDailies100.
+  ///
+  /// In en, this message translates to:
+  /// **'Centurion'**
+  String get achDailies100;
+
+  /// No description provided for @achDailies365.
+  ///
+  /// In en, this message translates to:
+  /// **'A year of quests'**
+  String get achDailies365;
+
+  /// No description provided for @achStreak3.
+  ///
+  /// In en, this message translates to:
+  /// **'Warming up'**
+  String get achStreak3;
+
+  /// No description provided for @achStreak7.
+  ///
+  /// In en, this message translates to:
+  /// **'On fire'**
+  String get achStreak7;
+
+  /// No description provided for @achStreak30.
+  ///
+  /// In en, this message translates to:
+  /// **'Unstoppable'**
+  String get achStreak30;
+
+  /// No description provided for @achStreak100.
+  ///
+  /// In en, this message translates to:
+  /// **'Legendary streak'**
+  String get achStreak100;
+
+  /// No description provided for @achFirstEpic.
+  ///
+  /// In en, this message translates to:
+  /// **'Epic start'**
+  String get achFirstEpic;
+
+  /// No description provided for @achEpics10.
+  ///
+  /// In en, this message translates to:
+  /// **'Saga'**
+  String get achEpics10;
+
+  /// No description provided for @achLevel5.
+  ///
+  /// In en, this message translates to:
+  /// **'Adventurer'**
+  String get achLevel5;
+
+  /// No description provided for @achLevel10.
+  ///
+  /// In en, this message translates to:
+  /// **'Pathfinder'**
+  String get achLevel10;
+
+  /// No description provided for @achLevel25.
+  ///
+  /// In en, this message translates to:
+  /// **'Elite'**
+  String get achLevel25;
+
+  /// No description provided for @achTasks10.
+  ///
+  /// In en, this message translates to:
+  /// **'Task tamer'**
+  String get achTasks10;
+
+  /// No description provided for @achTasks100.
+  ///
+  /// In en, this message translates to:
+  /// **'Task master'**
+  String get achTasks100;
+
+  /// No description provided for @achFirstBoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Boss slayer'**
+  String get achFirstBoss;
+
+  /// No description provided for @achBosses10.
+  ///
+  /// In en, this message translates to:
+  /// **'Monster hunter'**
+  String get achBosses10;
+
+  /// No description provided for @achFirstEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'In season'**
+  String get achFirstEvent;
+
+  /// No description provided for @achFirstPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'First purchase'**
+  String get achFirstPurchase;
+
+  /// No description provided for @achDoDailies.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Finish a daily quest} other{Finish {n} daily quests}}'**
+  String achDoDailies(int n);
+
+  /// No description provided for @achDoStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach a {n}-day streak'**
+  String achDoStreak(int n);
+
+  /// No description provided for @achDoEpics.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Finish an epic quest} other{Finish {n} epic quests}}'**
+  String achDoEpics(int n);
+
+  /// No description provided for @achDoLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach level {n}'**
+  String achDoLevel(int n);
+
+  /// No description provided for @achDoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick off {n} tasks in ZT Tasks'**
+  String achDoTasks(int n);
+
+  /// No description provided for @achDoBosses.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Beat a party boss} other{Beat {n} party bosses}}'**
+  String achDoBosses(int n);
+
+  /// No description provided for @achDoEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish a seasonal event'**
+  String get achDoEvent;
+
+  /// No description provided for @achDoPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy something in the shop'**
+  String get achDoPurchase;
+
+  /// No description provided for @eventNewYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh start'**
+  String get eventNewYear;
+
+  /// No description provided for @eventHanukkah.
+  ///
+  /// In en, this message translates to:
+  /// **'Hanukkah lights'**
+  String get eventHanukkah;
+
+  /// No description provided for @eventSummerSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Summer step challenge'**
+  String get eventSummerSteps;
+
+  /// No description provided for @eventNewYearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish a daily quest on 10 of the year\'s first 14 days.'**
+  String get eventNewYearBody;
+
+  /// No description provided for @eventHanukkahBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish a daily quest on each of the eight days of Hanukkah.'**
+  String get eventHanukkahBody;
+
+  /// No description provided for @eventSummerStepsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk 300,000 steps in July and August. Steps come from your daily quests and Health Connect.'**
+  String get eventSummerStepsBody;
+
+  /// No description provided for @eventOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonal event · until {day}'**
+  String eventOffer(String day);
+
+  /// No description provided for @eventEmblemNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish it for an emblem you can\'t get any other way.'**
+  String get eventEmblemNote;
+
+  /// No description provided for @eventJoin.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get eventJoin;
+
+  /// No description provided for @eventJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined. Follow it on the Epics tab.'**
+  String get eventJoined;
+
+  /// No description provided for @eventOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get eventOnly;
+
+  /// No description provided for @eventEmblemLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Won by finishing a seasonal event.'**
+  String get eventEmblemLocked;
+
+  /// No description provided for @statTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get statTasks;
+
+  /// No description provided for @statBosses.
+  ///
+  /// In en, this message translates to:
+  /// **'Bosses'**
+  String get statBosses;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

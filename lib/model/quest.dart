@@ -51,6 +51,7 @@ class QuestStep {
     this.label = '',
     this.unit = '',
     this.byDay = const {},
+    this.finished = false,
   });
 
   final String activity;
@@ -65,8 +66,14 @@ class QuestStep {
   /// Epic only: Health Connect's value for each day (`yyyy-MM-dd`).
   final Map<String, double> byDay;
 
-  bool get done => progress >= target;
-  double get ratio => target <= 0 ? 1 : (progress / target).clamp(0, 1);
+  /// Daily only: finished without an amount, by a run logged in ZT Fitness
+  /// without a distance. Kept apart from [progress] so it never adds
+  /// kilometres to an epic.
+  final bool finished;
+
+  bool get done => finished || progress >= target;
+  double get ratio =>
+      finished || target <= 0 ? 1 : (progress / target).clamp(0, 1);
 
   QuestStep withProgress(double p) => QuestStep(
     activity: activity,
@@ -75,6 +82,7 @@ class QuestStep {
     label: label,
     unit: unit,
     byDay: byDay,
+    finished: finished,
   );
 
   QuestStep withDay(String day, double value) => QuestStep(
@@ -84,6 +92,17 @@ class QuestStep {
     label: label,
     unit: unit,
     byDay: {...byDay, day: value},
+    finished: finished,
+  );
+
+  QuestStep asFinished() => QuestStep(
+    activity: activity,
+    target: target,
+    progress: progress,
+    label: label,
+    unit: unit,
+    byDay: byDay,
+    finished: true,
   );
 
   Map<String, Object?> toJson() => {
@@ -93,6 +112,7 @@ class QuestStep {
     if (label.isNotEmpty) 'label': label,
     if (unit.isNotEmpty) 'unit': unit,
     if (byDay.isNotEmpty) 'byDay': byDay,
+    if (finished) 'finished': true,
   };
 
   static QuestStep fromJson(Map<String, Object?> j) => QuestStep(
@@ -105,6 +125,7 @@ class QuestStep {
       for (final e in ((j['byDay'] as Map?) ?? const {}).entries)
         if (e.value is num) '${e.key}': (e.value as num).toDouble(),
     },
+    finished: j['finished'] == true,
   );
 
   @override
@@ -115,11 +136,19 @@ class QuestStep {
       other.target == target &&
       other.progress == progress &&
       other.label == label &&
-      other.unit == unit;
+      other.unit == unit &&
+      other.finished == finished;
 
   @override
-  int get hashCode =>
-      Object.hash(activity, target, progress, label, unit, byDay.length);
+  int get hashCode => Object.hash(
+    activity,
+    target,
+    progress,
+    label,
+    unit,
+    byDay.length,
+    finished,
+  );
 }
 
 /// A quest. Daily quests have the id `daily-<goal>-<day>-<n>` (n counts

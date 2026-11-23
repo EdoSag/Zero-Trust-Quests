@@ -10,6 +10,7 @@ class QuestsSettings {
     this.useHealth = false,
     this.reminderMinutes,
     this.widgetDetails = false,
+    this.workoutAccessDismissed = false,
   });
 
   /// Fill steps, distance, workouts, sleep and water from Health Connect.
@@ -22,18 +23,24 @@ class QuestsSettings {
   /// unencrypted on the phone). Off by default.
   final bool widgetDetails;
 
+  /// The Today card asking to read workouts was answered or put away.
+  final bool workoutAccessDismissed;
+
   static const _unset = Object();
 
   QuestsSettings copyWith({
     bool? useHealth,
     Object? reminderMinutes = _unset,
     bool? widgetDetails,
+    bool? workoutAccessDismissed,
   }) => QuestsSettings(
     useHealth: useHealth ?? this.useHealth,
     reminderMinutes: identical(reminderMinutes, _unset)
         ? this.reminderMinutes
         : reminderMinutes as int?,
     widgetDetails: widgetDetails ?? this.widgetDetails,
+    workoutAccessDismissed:
+        workoutAccessDismissed ?? this.workoutAccessDismissed,
   );
 }
 
@@ -46,6 +53,7 @@ class QuestsSettingsController extends Notifier<QuestsSettings> {
   static const _health = 'quests.useHealth';
   static const _reminder = 'quests.reminder';
   static const _widgetDetails = 'quests.widgetDetails';
+  static const _workoutAccess = 'quests.workoutAccessDismissed';
 
   @override
   QuestsSettings build() {
@@ -60,10 +68,12 @@ class QuestsSettingsController extends Notifier<QuestsSettings> {
       final health = await _prefs.read(_health);
       final reminder = await _prefs.read(_reminder);
       final widgetDetails = await _prefs.read(_widgetDetails);
+      final workoutAccess = await _prefs.read(_workoutAccess);
       state = QuestsSettings(
         useHealth: health == 'true',
         reminderMinutes: int.tryParse(reminder ?? ''),
         widgetDetails: widgetDetails == 'true',
+        workoutAccessDismissed: workoutAccess == 'true',
       );
     } on Object {
       // Defaults.
@@ -78,6 +88,11 @@ class QuestsSettingsController extends Notifier<QuestsSettings> {
   Future<void> setWidgetDetails(bool on) async {
     state = state.copyWith(widgetDetails: on);
     await _prefs.write(_widgetDetails, '$on');
+  }
+
+  Future<void> dismissWorkoutAccess() async {
+    state = state.copyWith(workoutAccessDismissed: true);
+    await _prefs.write(_workoutAccess, 'true');
   }
 
   Future<void> setReminder(int? minutes) async {

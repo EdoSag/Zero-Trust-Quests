@@ -9,6 +9,7 @@ import 'package:zero_trust_core/zero_trust_core.dart';
 import 'app/app_gate.dart';
 import 'app/quests_config.dart';
 import 'l10n/l10n.dart';
+import 'party/party_data.dart';
 import 'app/email_links.dart';
 
 Future<void> main() async {
@@ -24,7 +25,12 @@ Future<void> main() async {
   await ZtLanguageController.preload();
   runApp(
     ProviderScope(
-      overrides: [ztAppConfigProvider.overrideWithValue(questsAppConfig)],
+      overrides: [
+        ztAppConfigProvider.overrideWithValue(questsAppConfig),
+        // Parties: only owners set the hunt; each member's numbers only
+        // they can write.
+        ztSpacePolicyProvider.overrideWithValue(questsSpacePolicy),
+      ],
       child: const ZeroTrustQuestsApp(),
     ),
   );
@@ -51,7 +57,7 @@ class ZeroTrustQuestsApp extends ConsumerWidget {
           AppL10n.delegate,
           ...ZtLanguages.delegates,
         ],
-        home: home,
+        home: ZtSignInHandoffScope(child: home),
         // Any touch on any screen counts as activity for auto-lock.
         builder: (BuildContext context, Widget? child) => Listener(
           onPointerDown: (_) =>

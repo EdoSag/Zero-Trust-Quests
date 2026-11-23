@@ -30,6 +30,22 @@ end-to-end encrypted like them.
   titles from Novice to Legend.
 - **Shop:** streak freezes (60 gold, keep a streak through one missed day, hold
   up to 3), emblems and colours for your hero. Some unlock free with levels.
+- **Party quests:** start a party with friends and hunt a boss together.
+  Every daily quest anyone in the party finishes hits it (ZT Tasks tasks hit
+  a little too); beat it before the hunt ends (3, 7 or 14 days) and everyone
+  who helped gets XP and gold. The boss's hit points grow with the party.
+  Invite by link or QR code, compare a short code, end-to-end encrypted. The
+  party sees your name, level, hero look and damage, nothing about your goals.
+- **ZT Tasks as quests** (optional, Settings → ZT Tasks): pick which ZT Tasks
+  lists count. Each task you tick off in them earns 5 to 12 XP by priority,
+  and gold, up to 10 tasks a day (repeating tasks count each round). Quests
+  only reads your tasks; it never changes them.
+- **Achievements:** a gallery on the Hero tab (first quest, streaks, levels,
+  epic quests, tasks, bosses, events...), worked out from your progress.
+- **Seasonal events:** limited-time epic quests anyone can join while they
+  run: a fresh start in January, a Hanukkah streak (all eight days) and a
+  summer step challenge (300,000 steps in July and August). Each wins an
+  emblem you can't get any other way.
 - **Health Connect** (optional, Settings): fills steps, distance, workout
   minutes, sleep and water on its own, from ZT Fitness (with Health write-back
   on), a watch or other apps. Read on the phone only; never lowers what you
@@ -53,8 +69,18 @@ end-to-end encrypted like them.
   quests and purchases every time, never stored as counters, so two phones
   can't overwrite each other's progress.
 - Items in the shared `vault_items` table, sealed with the Quests app key
-  (`app = 'quests'`): kinds `goal`, `quest`, `purchase` and `hero`. No
-  database change was needed.
+  (`app = 'quests'`): kinds `goal`, `quest`, `purchase`, `reward`, `hero` and
+  `tasks_link`. No database change was needed.
+- Parties are Z24 shared spaces of app `quests` (the core's sharing, with the
+  shared sharing screens from `zt_sharing_ui`): item `party` (owners only:
+  name, boss strength, current hunt) and `member/<userId>` (only that member
+  can write it: damage, level, hero look). A beaten boss becomes a `reward`
+  item `party-<space>-<hunt>` in each helper's own vault.
+- ZT Tasks is read the way ZT Calendar reads it: at unlock Quests also
+  derives ZT Tasks' key and keeps its own encrypted, read-only copy of ZT
+  Tasks' items. A ticked-off task becomes a `reward` item `task-<id>` (or
+  `task-<id>-<due day>` for a round of a repeating task), so two phones make
+  the same one.
 - Health Connect and the reminder are per phone (kept with the core's
   preferences, not synced).
 

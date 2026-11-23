@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../engine/achievements.dart';
 import '../engine/catalog.dart';
+import '../engine/events.dart';
 import '../engine/hero.dart';
 import '../l10n/l10n.dart';
 import '../model/goal.dart';
@@ -113,10 +115,13 @@ bool isCheckStep(QuestStep s) => s.activity == 'custom'
 
 /// "12 of 25 km" style progress, short.
 String progressText(AppL10n l, QuestStep s) =>
-    l.progressOf(fmtNum(s.progress), fmtNum(s.target));
+    s.finished && s.progress < s.target
+    ? l.runLogged
+    : l.progressOf(fmtNum(s.progress), fmtNum(s.target));
 
 String questTitle(AppL10n l, Quest q, Goal? g) {
   if (q.title.isNotEmpty) return q.title;
+  if (SeasonalEvents.ofQuest(q) case final e?) return eventName(l, e.id);
   if (q.isDaily) return g == null ? l.dailyQuest : goalName(l, g);
   final s = q.steps.isEmpty ? null : q.steps.first;
   final days = q.deadline == null ? 0 : _span(q.day, q.deadline!);
@@ -234,8 +239,96 @@ IconData emblemIcon(String id) => switch (id) {
   'diamond' => Icons.diamond,
   'dragon' => Icons.whatshot,
   'trophy' => Icons.emoji_events,
+  'sparkle' => Icons.auto_awesome,
+  'candle' => Icons.light,
+  'sun' => Icons.wb_sunny,
   _ => Icons.shield,
 };
 
 Color heroColor(String id) =>
     Color(Shop.colorValues[id] ?? Shop.colorValues['teal']!);
+
+String bossName(AppL10n l, String id) => switch (id) {
+  'slime' => l.bossSlime,
+  'goblin' => l.bossGoblin,
+  'troll' => l.bossTroll,
+  'golem' => l.bossGolem,
+  'wyvern' => l.bossWyvern,
+  'kraken' => l.bossKraken,
+  'lich' => l.bossLich,
+  _ => l.bossDragon,
+};
+
+IconData bossIcon(String id) => switch (id) {
+  'slime' => Icons.bubble_chart,
+  'goblin' => Icons.sentiment_very_dissatisfied,
+  'troll' => Icons.forest,
+  'golem' => Icons.terrain,
+  'wyvern' => Icons.flight,
+  'kraken' => Icons.waves,
+  'lich' => Icons.dark_mode,
+  _ => Icons.whatshot,
+};
+
+String eventName(AppL10n l, String id) => switch (id) {
+  'newYear' => l.eventNewYear,
+  'hanukkah' => l.eventHanukkah,
+  _ => l.eventSummerSteps,
+};
+
+String eventBody(AppL10n l, String id) => switch (id) {
+  'newYear' => l.eventNewYearBody,
+  'hanukkah' => l.eventHanukkahBody,
+  _ => l.eventSummerStepsBody,
+};
+
+IconData eventIcon(String id) => switch (id) {
+  'newYear' => Icons.celebration,
+  'hanukkah' => Icons.light,
+  _ => Icons.wb_sunny,
+};
+
+String achievementTitle(AppL10n l, String id) => switch (id) {
+  'firstQuest' => l.achFirstQuest,
+  'dailies10' => l.achDailies10,
+  'dailies50' => l.achDailies50,
+  'dailies100' => l.achDailies100,
+  'dailies365' => l.achDailies365,
+  'streak3' => l.achStreak3,
+  'streak7' => l.achStreak7,
+  'streak30' => l.achStreak30,
+  'streak100' => l.achStreak100,
+  'firstEpic' => l.achFirstEpic,
+  'epics10' => l.achEpics10,
+  'level5' => l.achLevel5,
+  'level10' => l.achLevel10,
+  'level25' => l.achLevel25,
+  'tasks10' => l.achTasks10,
+  'tasks100' => l.achTasks100,
+  'firstBoss' => l.achFirstBoss,
+  'bosses10' => l.achBosses10,
+  'firstEvent' => l.achFirstEvent,
+  _ => l.achFirstPurchase,
+};
+
+String achievementBody(AppL10n l, Achievement a) => switch (a.metric) {
+  AchievementMetric.dailies => l.achDoDailies(a.target),
+  AchievementMetric.bestStreak => l.achDoStreak(a.target),
+  AchievementMetric.epics => l.achDoEpics(a.target),
+  AchievementMetric.level => l.achDoLevel(a.target),
+  AchievementMetric.tasks => l.achDoTasks(a.target),
+  AchievementMetric.partyWins => l.achDoBosses(a.target),
+  AchievementMetric.events => l.achDoEvent,
+  AchievementMetric.purchases => l.achDoPurchase,
+};
+
+IconData achievementIcon(AchievementMetric m) => switch (m) {
+  AchievementMetric.dailies => Icons.task_alt,
+  AchievementMetric.bestStreak => Icons.local_fire_department,
+  AchievementMetric.epics => Icons.landscape,
+  AchievementMetric.level => Icons.military_tech,
+  AchievementMetric.tasks => Icons.checklist,
+  AchievementMetric.partyWins => Icons.groups,
+  AchievementMetric.events => Icons.celebration,
+  AchievementMetric.purchases => Icons.storefront,
+};

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/quests_store.dart';
 import '../engine/catalog.dart';
 import '../engine/engine.dart';
+import '../engine/events.dart';
 import '../l10n/l10n.dart';
 import '../model/days.dart';
 import '../model/goal.dart';
@@ -56,9 +57,12 @@ class QuestCard extends ConsumerWidget {
               backgroundColor: color.withValues(alpha: 0.15),
               foregroundColor: color,
               child: Icon(
-                goal == null
-                    ? Icons.flag_outlined
-                    : categoryIcon(goal!.category),
+                goal != null
+                    ? categoryIcon(goal!.category)
+                    : switch (SeasonalEvents.ofQuest(quest)) {
+                        final e? => eventIcon(e.id),
+                        null => Icons.flag_outlined,
+                      },
               ),
             ),
             title: Text(

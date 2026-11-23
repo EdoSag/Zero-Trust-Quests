@@ -907,7 +907,7 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get useHealthHint =>
-      'מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (כשהכתיבה ל-Health פעילה), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.';
+      'מילוי אוטומטי של צעדים, מרחק, אימונים, שינה ומים מ-ZT Fitness (יש להפעיל בהגדרות שלה את \"שמירת אימונים ומים ב-Health Connect\"), מהשעון או מאפליקציות אחרות. נקרא רק בטלפון הזה.';
 
   @override
   String get healthUnavailable => 'Health Connect לא זמין בטלפון הזה.';
@@ -998,4 +998,387 @@ class AppL10nHe extends AppL10n {
 
   @override
   String get widgetOpenApp => 'פתיחת ZT Quests';
+
+  @override
+  String get workoutAccessTitle => 'ספירת האימונים שלך';
+
+  @override
+  String get workoutAccessBody =>
+      'אימונים מ-ZT Fitness או מהשעון יכולים למלא משימות של אימון, ריצה, מתיחות והליכה. Health Connect משתף אותם רק אם ZT Quests רשאית לקרוא גם קלוריות שנשרפו. נקרא רק בטלפון הזה.';
+
+  @override
+  String get workoutAccessAllow => 'אישור';
+
+  @override
+  String get runLogged => 'ריצה נרשמה';
+
+  @override
+  String get tabParty => 'חבורה';
+
+  @override
+  String get partyIntro =>
+      'מתאחדים עם חברים נגד מפלצת. כל משימה יומית שמישהו בחבורה מסיים פוגעת בה. מנצחים אותה לפני שהזמן נגמר, וכל מי שעזר מקבל XP וזהב.';
+
+  @override
+  String get partyE2e =>
+      'מוצפן מקצה לקצה. החבורה רואה את השם, הרמה, מראה הגיבור והנזק שעשית, ושום דבר על המטרות או המשימות שלך.';
+
+  @override
+  String get startParty => 'פתיחת חבורה';
+
+  @override
+  String get joinParty => 'הצטרפות עם הזמנה';
+
+  @override
+  String get partyNameLabel => 'שם החבורה';
+
+  @override
+  String get partyNameHint => 'ינשופי הלילה';
+
+  @override
+  String get partyDifficulty => 'חוזק המפלצת';
+
+  @override
+  String get diffEasy => 'קל';
+
+  @override
+  String get diffNormal => 'רגיל';
+
+  @override
+  String get diffHard => 'קשה';
+
+  @override
+  String diffHint(int hp, int hit) {
+    return 'נקודות חיים לכל משתתף בכל יום: $hp. משימה יומית שהושלמה פוגעת ב-$hit.';
+  }
+
+  @override
+  String get huntLength => 'אורך הציד';
+
+  @override
+  String get createParty => 'יצירת חבורה';
+
+  @override
+  String get partyWaiting => 'ממתין שבעלים יאשרו את הכניסה';
+
+  @override
+  String get bossSlime => 'רפש';
+
+  @override
+  String get bossGoblin => 'גובלין';
+
+  @override
+  String get bossTroll => 'טרול';
+
+  @override
+  String get bossGolem => 'גולם';
+
+  @override
+  String get bossWyvern => 'וייברן';
+
+  @override
+  String get bossKraken => 'קראקן';
+
+  @override
+  String get bossLich => 'ליץ\'';
+
+  @override
+  String get bossDragon => 'דרקון';
+
+  @override
+  String hpLeft(int left, int total) {
+    return 'נותרו $left מתוך $total נקודות חיים';
+  }
+
+  @override
+  String get huntLastDay => 'יום אחרון';
+
+  @override
+  String huntDaysLeft(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'נותרו $n ימים',
+      two: 'נותרו יומיים',
+      one: 'נותר יום אחד',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bossBeaten(int xp, int gold) {
+    return 'ניצחתם! כל מי שעזר מקבל $xp XP ו-$gold זהב.';
+  }
+
+  @override
+  String get bossEscaped => 'המפלצת ברחה. אפשר לפתוח ציד חדש ולנסות שוב.';
+
+  @override
+  String get bossEscapedMember => 'המפלצת ברחה. הבעלים יכולים לפתוח ציד חדש.';
+
+  @override
+  String get noHunt => 'עדיין אין ציד.';
+
+  @override
+  String get newHunt => 'ציד חדש';
+
+  @override
+  String get newHuntBody => 'בחרו כמה זמן יש לחבורה לנצח את המפלצת הבאה.';
+
+  @override
+  String get partyPeople => 'אנשים';
+
+  @override
+  String partyDamage(int n) {
+    return '$n נזק';
+  }
+
+  @override
+  String partyHits(int dailies, int tasks) {
+    return '$dailies משימות · $tasks מטלות';
+  }
+
+  @override
+  String get partyNoHitsYet => 'עדיין כלום';
+
+  @override
+  String partyLevel(int n) {
+    return 'שלב $n';
+  }
+
+  @override
+  String get partyNeedsInternet =>
+      'אין חיבור לשרת. חבורות צריכות חיבור לאינטרנט.';
+
+  @override
+  String get renameParty => 'שינוי שם החבורה';
+
+  @override
+  String partyRewardNote(int xp, int gold) {
+    return 'מנצחים, וכל מי שפגע בה מקבל $xp XP ו-$gold זהב.';
+  }
+
+  @override
+  String partyCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n משתתפים',
+      one: 'משתתף אחד',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksLinkTitle => 'ZT Tasks';
+
+  @override
+  String get tasksLinkOff => 'לקבל XP על מטלות שמסמנים כבוצעו';
+
+  @override
+  String tasksLinkOn(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n רשימות נספרות',
+      one: 'רשימה אחת נספרת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksLinkBody(int low, int high, int cap) {
+    return 'בחרו אילו רשימות של ZT Tasks נספרות. כל מטלה שתסמנו בהן כבוצעה מעכשיו מזכה ב-$low עד $high XP לפי העדיפות שלה, וגם בזהב, עד $cap מטלות ביום. Quests רק קוראת את המטלות ולעולם לא משנה אותן.';
+  }
+
+  @override
+  String get tasksDefaultList => 'המטלות שלי';
+
+  @override
+  String get tasksLoading => 'קורא את הרשימות מ-ZT Tasks…';
+
+  @override
+  String get tasksNone =>
+      'אין עדיין רשימות של ZT Tasks בחשבון הזה. צרו רשימה ב-ZT Tasks קודם.';
+
+  @override
+  String get tasksOffline => 'אין חיבור לשרת. הרשימות האלה מהפעם הקודמת.';
+
+  @override
+  String get tasksSharedNote => 'רשימות משותפות עדיין לא נספרות.';
+
+  @override
+  String tasksToday(int count, int xp) {
+    return 'ZT Tasks היום: $count בוצעו, $xp XP';
+  }
+
+  @override
+  String get achievements => 'הישגים';
+
+  @override
+  String achievementsCount(int done, int total) {
+    return '$done מתוך $total נפתחו';
+  }
+
+  @override
+  String get achFirstQuest => 'צעדים ראשונים';
+
+  @override
+  String get achDailies10 => 'יוצאים לדרך';
+
+  @override
+  String get achDailies50 => 'קבוע';
+
+  @override
+  String get achDailies100 => 'מאה משימות';
+
+  @override
+  String get achDailies365 => 'שנה של משימות';
+
+  @override
+  String get achStreak3 => 'מתחממים';
+
+  @override
+  String get achStreak7 => 'בוערים';
+
+  @override
+  String get achStreak30 => 'אין עצירה';
+
+  @override
+  String get achStreak100 => 'רצף אגדי';
+
+  @override
+  String get achFirstEpic => 'התחלה אפית';
+
+  @override
+  String get achEpics10 => 'סאגה';
+
+  @override
+  String get achLevel5 => 'הרפתקן';
+
+  @override
+  String get achLevel10 => 'מוצא דרכים';
+
+  @override
+  String get achLevel25 => 'עילית';
+
+  @override
+  String get achTasks10 => 'מאלף מטלות';
+
+  @override
+  String get achTasks100 => 'אלוף המטלות';
+
+  @override
+  String get achFirstBoss => 'קוטל מפלצות';
+
+  @override
+  String get achBosses10 => 'צייד מפלצות';
+
+  @override
+  String get achFirstEvent => 'בעונה';
+
+  @override
+  String get achFirstPurchase => 'קנייה ראשונה';
+
+  @override
+  String achDoDailies(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'להשלים $n משימות יומיות',
+      one: 'להשלים משימה יומית',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String achDoStreak(int n) {
+    return 'להגיע לרצף של $n ימים';
+  }
+
+  @override
+  String achDoEpics(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'להשלים $n משימות אפיות',
+      one: 'להשלים משימה אפית',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String achDoLevel(int n) {
+    return 'להגיע לשלב $n';
+  }
+
+  @override
+  String achDoTasks(int n) {
+    return 'לסמן $n מטלות כבוצעו ב-ZT Tasks';
+  }
+
+  @override
+  String achDoBosses(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'לנצח $n מפלצות עם החבורה',
+      one: 'לנצח מפלצת עם החבורה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get achDoEvent => 'להשלים אירוע עונתי';
+
+  @override
+  String get achDoPurchase => 'לקנות משהו בחנות';
+
+  @override
+  String get eventNewYear => 'התחלה חדשה';
+
+  @override
+  String get eventHanukkah => 'אורות חנוכה';
+
+  @override
+  String get eventSummerSteps => 'אתגר הצעדים של הקיץ';
+
+  @override
+  String get eventNewYearBody =>
+      'להשלים משימה יומית ב-10 מתוך 14 הימים הראשונים של השנה.';
+
+  @override
+  String get eventHanukkahBody =>
+      'להשלים משימה יומית בכל אחד משמונת ימי החנוכה.';
+
+  @override
+  String get eventSummerStepsBody =>
+      'ללכת 300,000 צעדים ביולי ובאוגוסט. הצעדים נספרים מהמשימות היומיות ומ-Health Connect.';
+
+  @override
+  String eventOffer(String day) {
+    return 'אירוע עונתי · עד $day';
+  }
+
+  @override
+  String get eventEmblemNote =>
+      'מי שמסיים מקבל סמל שאי אפשר להשיג בשום דרך אחרת.';
+
+  @override
+  String get eventJoin => 'הצטרפות';
+
+  @override
+  String get eventJoined => 'הצטרפת. אפשר לעקוב בלשונית האפיות.';
+
+  @override
+  String get eventOnly => 'אירוע';
+
+  @override
+  String get eventEmblemLocked => 'מתקבל כשמסיימים אירוע עונתי.';
+
+  @override
+  String get statTasks => 'מטלות';
+
+  @override
+  String get statBosses => 'מפלצות';
 }

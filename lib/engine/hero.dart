@@ -4,9 +4,12 @@ import 'package:flutter/foundation.dart';
 
 import '../model/days.dart';
 import '../model/quest.dart';
+import '../model/reward.dart';
 import 'engine.dart';
+import 'events.dart';
 
-/// Everything the hero has earned, worked out from quests and purchases.
+/// Everything the hero has earned, worked out from quests, rewards and
+/// purchases.
 @immutable
 class HeroStats {
   const HeroStats({
@@ -19,6 +22,10 @@ class HeroStats {
     required this.epicsDone,
     required this.freeDeclineLeft,
     required this.owned,
+    this.tasksDone = 0,
+    this.partyWins = 0,
+    this.eventsDone = 0,
+    this.purchasesMade = 0,
   });
 
   static const empty = HeroStats(
@@ -32,6 +39,9 @@ class HeroStats {
     freeDeclineLeft: true,
     owned: {},
   );
+
+  /// ZT Tasks tasks that earned XP (at most [tasksPerDay] a day count).
+  static const tasksPerDay = 10;
 
   final int xp;
   final int gold;
@@ -49,8 +59,21 @@ class HeroStats {
   /// One decline a day is free; more cost gold.
   final bool freeDeclineLeft;
 
-  /// Shop items bought (`emblem:x`, `color:x`).
+  /// Shop items bought (`emblem:x`, `color:x`), and emblems won in
+  /// seasonal events.
   final Set<String> owned;
+
+  /// ZT Tasks tasks that counted (see [tasksPerDay]).
+  final int tasksDone;
+
+  /// Party bosses beaten.
+  final int partyWins;
+
+  /// Seasonal events finished.
+  final int eventsDone;
+
+  /// Things bought with gold.
+  final int purchasesMade;
 
   int get level => Levels.levelFor(xp);
   int get xpIntoLevel => xp - Levels.xpAt(level);
@@ -59,11 +82,14 @@ class HeroStats {
   static HeroStats compute(
     List<Quest> quests,
     List<Purchase> purchases,
-    String today,
-  ) {
+    String today, {
+    List<Reward> rewards = const [],
+  }) {
     var xp = 0;
     var gold = 0;
     var epics = 0;
+    var events = 0;
+    final owned = <String>{};
     final doneDays = <String, int>{}; // day -> daily XP earned that day
     var dailies = 0;
     var declinedFreeToday = false;
@@ -83,13 +109,32 @@ class HeroStats {
         doneDays[q.day] = (doneDays[q.day] ?? 0) + q.xp;
       } else {
         epics++;
+        if (SeasonalEvents.ofQuest(q) case final e?) {
+          events++;
+          owned.add('emblem:${e.emblem}');
+        }
       }
+    }
+    // Rewards from ZT Tasks (capped per day, the same on every phone) and
+    // parties. They don't count towards the streak.
+    var tasks = 0;
+    var wins = 0;
+    final tasksByDay = <String, int>{};
+    for (final r in [...rewards]..sort((a, b) => a.id.compareTo(b.id))) {
+      if (r.source == RewardSource.task) {
+        final n = tasksByDay[r.day] = (tasksByDay[r.day] ?? 0) + 1;
+        if (n > tasksPerDay) continue;
+        tasks++;
+      } else {
+        wins++;
+      }
+      xp += r.xp;
+      gold += r.gold;
     }
     final freezeDays = <String>[
       for (final p in purchases)
         if (p.item == Shop.freeze) p.day,
     ]..sort();
-    final owned = <String>{};
     for (final p in purchases) {
       gold -= p.cost;
       if (p.item != Shop.freeze) owned.add(p.item);
@@ -141,6 +186,10 @@ class HeroStats {
       epicsDone: epics,
       freeDeclineLeft: !declinedFreeToday,
       owned: owned,
+      tasksDone: tasks,
+      partyWins: wins,
+      eventsDone: events,
+      purchasesMade: purchases.length,
     );
   }
 }
@@ -177,14 +226,16 @@ abstract final class Levels {
   }
 }
 
-/// Something in the shop: free from [level], or bought for [price] gold.
+/// Something in the shop: free from [level], bought for [price] gold, or
+/// won by finishing the seasonal event [event].
 @immutable
 class ShopItem {
-  const ShopItem(this.id, {this.level = 1, this.price = 0});
+  const ShopItem(this.id, {this.level = 1, this.price = 0, this.event});
 
   final String id;
   final int level;
   final int price;
+  final String? event;
 }
 
 abstract final class Shop {
@@ -208,6 +259,9 @@ abstract final class Shop {
     ShopItem('diamond', price: 600),
     ShopItem('dragon', level: 30),
     ShopItem('trophy', level: 50),
+    ShopItem('sparkle', event: 'newYear'),
+    ShopItem('candle', event: 'hanukkah'),
+    ShopItem('sun', event: 'summerSteps'),
   ];
 
   static const colors = <ShopItem>[
@@ -234,7 +288,7 @@ abstract final class Shop {
 
   /// Whether [item] (`emblem:x` or `color:x`) can be worn.
   static bool unlocked(ShopItem item, String kind, HeroStats stats) =>
-      item.price == 0
+      item.price == 0 && item.event == null
       ? stats.level >= item.level
       : stats.owned.contains('$kind:${item.id}');
 }

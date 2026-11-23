@@ -640,7 +640,7 @@
     }
   },
   "useHealth": "Use Health Connect",
-  "useHealthHint": "Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (with Health write-back on), your watch or other apps. Read on this phone only.",
+  "useHealthHint": "Fill steps, distance, workouts, sleep and water on their own, from ZT Fitness (turn on \"Save workouts and water to Health Connect\" in its settings), your watch or other apps. Read on this phone only.",
   "healthUnavailable": "Health Connect is not available on this phone.",
   "healthRefused": "Health Connect access was not allowed.",
   "dailyReminder": "Daily reminder",
@@ -707,5 +707,271 @@
       }
     }
   },
-  "widgetOpenApp": "Open ZT Quests"
+  "widgetOpenApp": "Open ZT Quests",
+  "workoutAccessTitle": "Count your workouts",
+  "workoutAccessBody": "Workouts from ZT Fitness or your watch can fill workout, run, stretching and walking quests. Health Connect shares them only when ZT Quests may also read calories burned. Read on this phone only.",
+  "workoutAccessAllow": "Allow",
+  "runLogged": "Run logged",
+  "tabParty": "Party",
+  "partyIntro": "Team up with friends against a boss. Every daily quest anyone in the party finishes hits it. Beat it before time runs out and everyone who helped gets XP and gold.",
+  "partyE2e": "End-to-end encrypted. The party sees your name, level, hero look and the damage you did, nothing about your goals or quests.",
+  "startParty": "Start a party",
+  "joinParty": "Join with an invite",
+  "partyNameLabel": "Party name",
+  "partyNameHint": "The Night Owls",
+  "partyDifficulty": "Boss strength",
+  "diffEasy": "Easy",
+  "diffNormal": "Normal",
+  "diffHard": "Hard",
+  "diffHint": "Hit points for each member each day: {hp}. A daily quest done hits for {hit}.",
+  "@diffHint": {
+    "placeholders": {
+      "hp": {
+        "type": "int"
+      },
+      "hit": {
+        "type": "int"
+      }
+    }
+  },
+  "huntLength": "Hunt length",
+  "createParty": "Create party",
+  "partyWaiting": "Waiting for an owner to let you in",
+  "bossSlime": "Slime",
+  "bossGoblin": "Goblin",
+  "bossTroll": "Troll",
+  "bossGolem": "Golem",
+  "bossWyvern": "Wyvern",
+  "bossKraken": "Kraken",
+  "bossLich": "Lich",
+  "bossDragon": "Dragon",
+  "hpLeft": "{left} of {total} HP left",
+  "@hpLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "huntLastDay": "Last day",
+  "huntDaysLeft": "{n, plural, =1{1 day left} other{{n} days left}}",
+  "@huntDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "bossBeaten": "Beaten! Everyone who helped gets {xp} XP and {gold} gold.",
+  "@bossBeaten": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
+  "bossEscaped": "The boss got away. Start a new hunt to try again.",
+  "bossEscapedMember": "The boss got away. An owner can start a new hunt.",
+  "noHunt": "No hunt yet.",
+  "newHunt": "New hunt",
+  "newHuntBody": "Pick how long the party has to beat the next boss.",
+  "partyPeople": "People",
+  "partyDamage": "{n} damage",
+  "@partyDamage": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "partyHits": "{dailies} quests · {tasks} tasks",
+  "@partyHits": {
+    "placeholders": {
+      "dailies": {
+        "type": "int"
+      },
+      "tasks": {
+        "type": "int"
+      }
+    }
+  },
+  "partyNoHitsYet": "Nothing yet",
+  "partyLevel": "Level {n}",
+  "@partyLevel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "partyNeedsInternet": "Couldn't reach the server. Parties need an internet connection.",
+  "renameParty": "Rename party",
+  "partyRewardNote": "Beat it and everyone who hit it gets {xp} XP and {gold} gold.",
+  "@partyRewardNote": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "gold": {
+        "type": "int"
+      }
+    }
+  },
+  "partyCount": "{n, plural, =1{1 member} other{{n} members}}",
+  "@partyCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tasksLinkTitle": "ZT Tasks",
+  "tasksLinkOff": "Earn XP for the tasks you tick off",
+  "tasksLinkOn": "{n, plural, =1{1 list counts} other{{n} lists count}}",
+  "@tasksLinkOn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tasksLinkBody": "Choose which ZT Tasks lists count. Each task you tick off in them from now on earns {low} to {high} XP by its priority, and gold, up to {cap} tasks a day. Quests only reads your tasks; it never changes them.",
+  "@tasksLinkBody": {
+    "placeholders": {
+      "low": {
+        "type": "int"
+      },
+      "high": {
+        "type": "int"
+      },
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "tasksDefaultList": "My Tasks",
+  "tasksLoading": "Reading your lists from ZT Tasks…",
+  "tasksNone": "No ZT Tasks lists on this account yet. Make one in ZT Tasks first.",
+  "tasksOffline": "Couldn't reach the server. These lists are from the last time.",
+  "tasksSharedNote": "Shared lists don't count yet.",
+  "tasksToday": "ZT Tasks today: {count} done, {xp} XP",
+  "@tasksToday": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "achievements": "Achievements",
+  "achievementsCount": "{done} of {total} unlocked",
+  "@achievementsCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achFirstQuest": "First steps",
+  "achDailies10": "Getting going",
+  "achDailies50": "Regular",
+  "achDailies100": "Centurion",
+  "achDailies365": "A year of quests",
+  "achStreak3": "Warming up",
+  "achStreak7": "On fire",
+  "achStreak30": "Unstoppable",
+  "achStreak100": "Legendary streak",
+  "achFirstEpic": "Epic start",
+  "achEpics10": "Saga",
+  "achLevel5": "Adventurer",
+  "achLevel10": "Pathfinder",
+  "achLevel25": "Elite",
+  "achTasks10": "Task tamer",
+  "achTasks100": "Task master",
+  "achFirstBoss": "Boss slayer",
+  "achBosses10": "Monster hunter",
+  "achFirstEvent": "In season",
+  "achFirstPurchase": "First purchase",
+  "achDoDailies": "{n, plural, =1{Finish a daily quest} other{Finish {n} daily quests}}",
+  "@achDoDailies": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoStreak": "Reach a {n}-day streak",
+  "@achDoStreak": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoEpics": "{n, plural, =1{Finish an epic quest} other{Finish {n} epic quests}}",
+  "@achDoEpics": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoLevel": "Reach level {n}",
+  "@achDoLevel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoTasks": "Tick off {n} tasks in ZT Tasks",
+  "@achDoTasks": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoBosses": "{n, plural, =1{Beat a party boss} other{Beat {n} party bosses}}",
+  "@achDoBosses": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "achDoEvent": "Finish a seasonal event",
+  "achDoPurchase": "Buy something in the shop",
+  "eventNewYear": "Fresh start",
+  "eventHanukkah": "Hanukkah lights",
+  "eventSummerSteps": "Summer step challenge",
+  "eventNewYearBody": "Finish a daily quest on 10 of the year's first 14 days.",
+  "eventHanukkahBody": "Finish a daily quest on each of the eight days of Hanukkah.",
+  "eventSummerStepsBody": "Walk 300,000 steps in July and August. Steps come from your daily quests and Health Connect.",
+  "eventOffer": "Seasonal event · until {day}",
+  "@eventOffer": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "eventEmblemNote": "Finish it for an emblem you can't get any other way.",
+  "eventJoin": "Join",
+  "eventJoined": "Joined. Follow it on the Epics tab.",
+  "eventOnly": "Event",
+  "eventEmblemLocked": "Won by finishing a seasonal event.",
+  "statTasks": "Tasks",
+  "statBosses": "Bosses"
 }
